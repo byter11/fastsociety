@@ -12,11 +12,18 @@
   },
   "author": "Sandeep Raveesh",
   "license": "ISC",
+  "babel": {
+    "presets": [
+      "@babel/react",
+      "@babel/env"
+    ]
+  },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "dotenv": "^10.0.0",
     "express": "^4.16.3",
     "fs-extra": "^10.0.0",
+    "mysql": "^2.18.1",
     "oracledb": "^5.2.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2"

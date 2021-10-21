@@ -4,9 +4,9 @@ import ReactImage from './react.png';
 
 export default class App extends Component {
   state = { username: null };
-
+  id = 100;
   componentDidMount() {
-    fetch('/api/getUsername')
+    fetch(`/api/getUsername/?id=${this.id}`)
       .then(res => res.json())
       .then(user => this.setState({ username: user.username }));
   }

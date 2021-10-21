@@ -7,6 +7,7 @@ module.exports = {
 	sql: {
 		user: process.env.SQL_USER,
 		password: process.env.SQL_PASSWORD,
-		conenctString: process.env.CONNECT_STRING
+		conenctString: process.env.CONNECT_STRING,
+		databaseName: process.env.DB_NAME
 	}
 }
