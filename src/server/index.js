@@ -1,13 +1,9 @@
 const express = require('express');
 const config = require('./config');
-const routes = require('./routes');
-const db = require('./db')
 // const os = require('os');
 
 const app = express();
-db().then((client) => 
-	routes.register(app, client)
-);
+const routes = require('./routes')(app);
 
 app.use(express.static('public'));
 
