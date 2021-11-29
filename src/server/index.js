@@ -1,6 +1,5 @@
 const express = require('express');
 const next = require('next');
-
 const dev = process.env.NODE_ENV !== 'production';
 const config = require('./config');
 // const os = require('os');
@@ -13,7 +12,8 @@ const handle = app.getRequestHandler();
 app.prepare()
 .then(() => {
 	const server = express();
-
+	server.use(express.urlencoded({extended: true}));
+	server.use(express.json());
 	const routes = require('./routes')(server);
 	
 	server.get('*', (req, res) => {

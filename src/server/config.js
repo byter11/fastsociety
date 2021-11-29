@@ -10,5 +10,6 @@ module.exports = {
 		host: process.env.CONNECT_STRING,
 		database: process.env.DB_NAME,
 		connectionLimit: 10
-	}
+	},
+	clientId: process.env.CLIENT_ID
 }
