@@ -1,44 +1,15 @@
-import Link from 'next/link';
-import GoogleLogin from 'react-google-login';
+import {useState, setState} from 'react';
+import Cookie from 'js-cookie';
+import LoginButton from '../components/LoginButton';
 
 const Index = props => {
-	return <Login/>
-}
-
-const Login = props => {
-	const responseGoogle = (response) => {
-		var profile = response.getBasicProfile();
-		const data = {
-		 	id : response.getAuthResponse().id_token,
-		 	name : profile.getName(),
-			email: profile.getEmail(),
-			image : profile.getImageUrl()
-		}
+	const [token, setToken] = useState(!!Cookie.get('token'));
+	if(token) {
 		
-		fetch('/auth/signin', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			  },
-			body: JSON.stringify(data)
-		})
-		.then(res => res.json())
-		.then(result => {
-			console.log(result)
-		});
 	}
-	
-	return (
-		<div>
-			<GoogleLogin
-			clientId="623112692123-qme5o65dd50rsetvqp006ulrcva3t68k.apps.googleusercontent.com"
-			buttonText="Login"
-			onSuccess={responseGoogle}
-			onFailure={responseGoogle}
-			cookiePolicy={'single_host_origin'}
-  			/>
-		</div>
-	);
-};
+	return <LoginButton/>
+}	
+
+
 
 export default Index;

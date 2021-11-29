@@ -11,5 +11,6 @@ module.exports = {
 		database: process.env.DB_NAME,
 		connectionLimit: 10
 	},
-	clientId: process.env.CLIENT_ID
+	clientId: process.env.CLIENT_ID,
+	jwtSecret: process.env.JWT_SECRET
 }
