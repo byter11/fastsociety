@@ -8,7 +8,9 @@ router.get('/:username', (req, res) => {
 	(errors, results, fields) => {
 		if(errors)
 			return res.status(500).json(errors);
-		return res.status(200).json(results);
+		console.log(email, results);
+		
+		return res.status(200).json(results[0]);
 	});
 })
 

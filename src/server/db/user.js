@@ -10,7 +10,7 @@ const upsert = (data, cb) => {
 		[id, name, email, image, name, image],
 		(error, results, fields) => {
 			console.log(error, results, fields)
-			cb(error, results)
+			cb(error, results[0]);
 		}
 	);
 }
