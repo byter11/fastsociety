@@ -1,7 +1,7 @@
 import GoogleLogin from 'react-google-login';
 import Cookie from 'js-cookie';
 
-const Login = props => {
+const LoginButton = () => {
 	const onSignIn = (response) => {
 		var profile = response.getBasicProfile();
 		const data = {
@@ -40,4 +40,4 @@ const Login = props => {
 	);
 };
 
-export default Login;
+export default LoginButton;

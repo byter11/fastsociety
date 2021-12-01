@@ -7,7 +7,6 @@ const Profile = () => {
 	const [user, setUser] = useState(null);
 	const router = useRouter();
 		
-
 	useEffect(()=> {
 		if (!router.isReady) return;
 		const { username } = router.query;		
