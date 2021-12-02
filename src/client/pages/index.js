@@ -1,9 +1,6 @@
-import {useState, setState} from 'react';
-import Cookie from 'js-cookie';
-import LoginButton from '../components/LoginButton';
-
+import Layout from '../components/Layout';
 const Index = props => {
-		
+	return <Layout></Layout>
 }	
 
 

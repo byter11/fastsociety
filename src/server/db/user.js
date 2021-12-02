@@ -9,7 +9,6 @@ const upsert = (data, cb) => {
 		 name = ?, image = ?`,
 		[id, name, email, image, name, image],
 		(error, results, fields) => {
-			console.log(error, results, fields)
 			cb(error, results[0]);
 		}
 	);
@@ -22,7 +21,7 @@ const getOne = ({where, value}, cb) => {
 		WHERE ${where} = ?`,
 		[value],
 		(error, results, fields) => {
-			cb(error, results, fields)
+			cb(error, results[0], fields)
 		}
 	);
 }

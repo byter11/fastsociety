@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-loading-skeleton/dist/skeleton.css'
 import Head from "next/head";
 function App({ Component, pageProps }) {
 	return (

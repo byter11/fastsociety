@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Cookie from 'js-cookie';
 
-export async function fetchUser(token = '') {
+export async function fetchUser() {
   if (typeof window !== 'undefined' && window.__user) {
     return window.__user
   }
@@ -12,9 +12,9 @@ export async function fetchUser(token = '') {
 	  delete window.__user
 	  return null
   }
-  
+
   const res = await fetch(
-    '/user',
+    '/api/user',
     token
       ? {
           headers: {
@@ -30,6 +30,7 @@ export async function fetchUser(token = '') {
   }
 
   const json = await res.json()
+  
   if (typeof window !== 'undefined') {
     window.__user = json
   }
