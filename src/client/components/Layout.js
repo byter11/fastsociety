@@ -17,6 +17,7 @@ const Layout = ({
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
+            <div style={{minHeight: '101vh'}}>
             <header>
                 <Navbar bg="light" expand="lg">
                     <Container>
@@ -40,7 +41,8 @@ const Layout = ({
 
             {children}
 
-            <footer>{''}</footer>
+            <footer style={{bottom: 0, position: 'absolute'}}>{'yo'}</footer>
+            </div>
         </div>
     )
 }

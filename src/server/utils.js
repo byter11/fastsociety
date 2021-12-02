@@ -1,6 +1,19 @@
 const fse = require( "fs-extra" );
 const { join } = require( "path" );
 
+const buildConditions = (where) => {
+   const conditionList = Object.entries(where).filter(([_, val]) => 
+        typeof(val) !== 'undefined'
+    );
+   const conditions = conditionList.map(([k,v]) => {
+      return `${k} IN (${Array(v.length).fill('?')})`
+   }).join(' AND ');
+   
+   const values = conditionList.map(([_,v]) => v).flat();
+
+   return {conditions, values};
+}
+
 const loadSqlQueries = async folderName => {
    // determine the file path for the folder
    const filePath = join( process.cwd(), "src", "server", "db", folderName );
@@ -21,5 +34,6 @@ const loadSqlQueries = async folderName => {
 };
 
 module.exports = {
-   loadSqlQueries
+   loadSqlQueries,
+   buildConditions
 };

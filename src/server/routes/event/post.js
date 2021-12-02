@@ -1,5 +1,5 @@
-const router = require('express').Router();
-const config = require('../config');
+const router = require('express').Router({mergeParams: true});
+const config = require('../../config');
 const { getMultiple } = require('../../db/post');
 
 router.get('/', (req, res) => {

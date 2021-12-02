@@ -1,6 +1,10 @@
 import Layout from '../components/Layout';
+import EventsView from '../components/Events/EventsView';
+
 const Index = props => {
-	return <Layout></Layout>
+	return <Layout>
+		<EventsView/>
+	</Layout>
 }	
 
 

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const config = require('../config');
+const config = require('../../config');
 const { getOne, getMultiple } = require('../../db/event');
 
 router.use('/:eventId/post', require('./post'));
@@ -12,8 +12,15 @@ router.get('/:eventId', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    const count = req.query.count || 10, offset = req.query.offset || 0;
-    getMultiple({offset: offset, limit: count},
+    const count = +req.query.count || 2;
+    const offset = +req.query.offset;
+    const societies = req.query.societies //because [] is always true
+        ? req.query.societies.split(',') 
+        : undefined;
+
+    // console.log(count,offset,societies);
+
+    getMultiple({where: {societyId: societies}, offset: offset, limit: count},
         (errors, results) => {
             if(errors)
                 return res.status(500).send(errors);
