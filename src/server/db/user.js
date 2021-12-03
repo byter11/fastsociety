@@ -8,7 +8,8 @@ const upsert = (data, cb) => {
 		 ON DUPLICATE KEY UPDATE
 		 name = ?, image = ?`,
 		[id, name, email, image, name, image],
-		(error, results, fields) => {
+		(error, results=[], fields) => {
+			console.log(error, results);
 			cb(error, results[0]);
 		}
 	);
@@ -17,10 +18,10 @@ const upsert = (data, cb) => {
 const getOne = ({where, value}, cb) => {
 	db.query(
 		`SELECT name, email, image
-		FROM Users
+		FROM user
 		WHERE ${where} = ?`,
 		[value],
-		(error, results, fields) => {
+		(error, results=[], fields) => {
 			cb(error, results[0], fields)
 		}
 	);

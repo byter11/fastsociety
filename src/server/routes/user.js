@@ -11,8 +11,10 @@ router.get('/', (req, res) => {
 		
 		getOne({where: 'id', value: decoded},
 		(errors, results) => {
-			if(errors)
+			if(errors){
+				console.log(errors)
 				return res.status(500).send(errors);
+			}
 			
 			const user = {
 				id: getUserId(results.email),

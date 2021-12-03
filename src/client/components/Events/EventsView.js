@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Spinner} from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Skeleton from 'react-loading-skeleton';
+import Event from './Event';
 
 const EventsView = ({societies = []}) => {
-    const [events, setEvents] = useState([{id:23}]);
+    const [events, setEvents] = useState([]);
     const [hasMore, setHasMore] = useState(true);
 
     const fetchEvents = () => {
@@ -15,14 +16,13 @@ const EventsView = ({societies = []}) => {
         })
         .then(res => res.json())
         .then(newEvents => {
-            if(newEvents.length === 0){
+            if(!Array.isArray(newEvents) || newEvents.length === 0){
                 setHasMore(false);
                 return;
             }
             setEvents(events => [...events, ...newEvents]);
         });
     }
-    
     // //OnComponentMount
     // useEffect(()=> {
     //     fetchEvents();
@@ -35,13 +35,18 @@ const EventsView = ({societies = []}) => {
             hasMore={hasMore}
             loader={<Skeleton count={10}/>}
             endMessage={
-                <p style={{ textAlign: "center" }}>
-                    <b>Yay! You have seen it all</b>
+                <p className="text-muted" style={{ textAlign: "center" }}>
+                    End of stream
                 </p>
             }
+            style={{
+                maxWidth: 800,
+                overflowX: 'hidden',
+                margin: 'auto'
+            }}
         >
-        {events.map(e => (
-            <Event data={e}></Event>
+        {events.map((e, index) => (
+            <Event data={e} key={index}></Event>
         ))}
         {hasMore && <a onClick={fetchEvents}>Load More</a>}
         </InfiniteScroll>
