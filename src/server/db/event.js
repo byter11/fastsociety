@@ -6,7 +6,7 @@ const getMultiple = ({where={}, limit=10, offset=0}, cb) => {
 	console.log(conditions, values);
 	db.query(
 		`SELECT *
-		FROM Events ${conditions ? 'WHERE ' + conditions : ''}
+		FROM event ${conditions ? 'WHERE ' + conditions : ''}
         ORDER BY createdAt desc
         LIMIT ?, ?`,
 		[...values, offset, limit],

@@ -3,7 +3,7 @@ const db = require('./db');
 const upsert = (data, cb) => {
 	const {id, name, email, image} = data;
 	db.query(
-		`INSERT INTO Users (id, name, email, image)
+		`INSERT INTO user (id, name, email, image)
 		 VALUES (?, ?, ?, ?)
 		 ON DUPLICATE KEY UPDATE
 		 name = ?, image = ?`,
