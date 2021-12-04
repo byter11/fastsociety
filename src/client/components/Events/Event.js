@@ -12,7 +12,7 @@ const Event = ({data}) => {
                 <div ><Image className="m-2" src={image} roundedCircle height={40} width={40}/>
                 <b>{society.title}</b> added an <b>Event</b></div>
             </Row>
-            <Row className="px-2"><p>{textContent}efeifeiufne ifenfiuefneiuf neiufneiufne fieun </p></Row>
+            <Row className="px-2"><p>{textContent}</p></Row>
             <Row>
                 <div className="btn-group">
                     <Button variant="light">Rate</Button>
@@ -22,7 +22,6 @@ const Event = ({data}) => {
             </Row>
         </Container>
     </Card>;
-    // TODO: fix backend
 }
 
 export default Event;

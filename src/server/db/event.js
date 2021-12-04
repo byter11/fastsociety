@@ -20,7 +20,6 @@ const getMultiple = ({where={}, limit=10, offset=0}, cb) => {
 				obj.e.society = obj.s;
 				return obj.e;
 			})
-			console.log(data);
 			cb(error, data, fields)
 		}
 	);

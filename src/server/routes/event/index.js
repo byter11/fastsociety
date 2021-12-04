@@ -14,7 +14,7 @@ router.get('/:eventId', (req, res) => {
 router.get('/', (req, res) => {
     const count = +req.query.count || 2;
     const offset = +req.query.offset;
-    const societies = req.query.societies //because [] is always true
+    const societies = req.query.societies //undefined if empty string else array
         ? req.query.societies.split(',') 
         : undefined;
 

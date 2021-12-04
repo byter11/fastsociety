@@ -9,7 +9,6 @@ const upsert = (data, cb) => {
 		 name = ?, image = ?`,
 		[id, name, email, image, name, image],
 		(error, results=[], fields) => {
-			console.log(error, results);
 			cb(error, results[0]);
 		}
 	);

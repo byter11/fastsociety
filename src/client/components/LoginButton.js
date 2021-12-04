@@ -1,5 +1,6 @@
 import GoogleLogin from 'react-google-login';
 import Cookie from 'js-cookie';
+import Router from 'next/router';
 
 const LoginButton = () => {
 	const onSignIn = (response) => {
@@ -22,13 +23,14 @@ const LoginButton = () => {
 		.then(({token}) => {
 			console.log(token);
 			Cookie.set("token", token);
+			Router.reload(window.location.pathname);
 		});
 	}
 	
 	const onError = (response) => {}
 
 	return (
-		<div>
+		<div className="mx-2">
 			<GoogleLogin
 			clientId="623112692123-qme5o65dd50rsetvqp006ulrcva3t68k.apps.googleusercontent.com"
 			buttonText="Login"

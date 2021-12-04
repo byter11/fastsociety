@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 
 router.get('/', (req, res) => {
-	console.log(req.headers.token);
+	// console.log(req.headers.token);
 	jwt.verify(req.headers.token, config.jwtSecret, (err, decoded) => {
 		if(err)
 			return res.status(401).send(err);
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 		getOne({where: 'id', value: decoded},
 		(errors, results) => {
 			if(errors){
-				console.log(errors)
+				//console.log(errors)
 				return res.status(500).send(errors);
 			}
 			

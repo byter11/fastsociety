@@ -1,6 +1,6 @@
 import Link from 'next/link';   
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Spinner} from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Button} from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Skeleton from 'react-loading-skeleton';
 import Event from './Event';
@@ -23,12 +23,14 @@ const EventsView = ({societies = []}) => {
             setEvents(events => [...events, ...newEvents]);
         });
     }
-    // //OnComponentMount
-    // useEffect(()=> {
-    //     fetchEvents();
-    // }, []);
 
-    
+    // OnComponentMount
+    useEffect(() => {
+        const scrollBarExists = document.body.scrollHeight > document.body.clientHeight;
+        if (!scrollBarExists)
+            fetchEvents();
+    }, []);
+
     return <InfiniteScroll
             dataLength={events.length}
             next={fetchEvents}
@@ -44,11 +46,12 @@ const EventsView = ({societies = []}) => {
                 overflowX: 'hidden',
                 margin: 'auto'
             }}
+            initialScrollY={1}
         >
         {events.map((e, index) => (
             <Event data={e} key={index}></Event>
         ))}
-        {hasMore && <a onClick={fetchEvents}>Load More</a>}
+        {hasMore && <div  className="text-center"><Button variant="light" onClick={fetchEvents}>Load More</Button></div>}
         </InfiniteScroll>
     
 }
