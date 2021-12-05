@@ -1,26 +1,25 @@
 const router = require('express').Router();
 const config = require('../../config');
 const { getOne, getMultiple } = require('../../db/event');
-
-router.use('/:eventId/post', require('./post'));
-router.use('/:eventId/comment', require('./comment'));
-router.use('/:eventId/review', require('./review'));
+const jwt = require('jsonwebtoken');
+const {verify} = require('../../services/jwt');
 
 router.get('/:eventId', (req, res) => {
     const { eventId } = req.params;
     getOne({where: 'id', value: eventId});
 });
 
-router.get('/', (req, res) => {
+router.get('/', verify, (req, res) => {
+    const userId = req.body.userId || '';
     const count = +req.query.count || 2;
-    const offset = +req.query.offset;
+    const offset = +req.query.offset || 0;
     const societies = req.query.societies //undefined if empty string else array
         ? req.query.societies.split(',') 
         : undefined;
 
     // console.log(count,offset,societies);
 
-    getMultiple({where: {societyId: societies}, offset: offset, limit: count},
+    getMultiple({where: {societyId: societies}, offset: offset, limit: count, user: userId},
         (errors, results) => {
             if(errors)
                 return res.status(500).send(errors);

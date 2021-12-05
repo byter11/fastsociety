@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react'
 import Cookie from 'js-cookie';
 
-export async function fetchUser() {
+export async function fetchUser(token) {
   if (typeof window !== 'undefined' && window.__user) {
     return window.__user
   }
-  const token = Cookie.get('token')
+
   if (!token){
 	  delete window.__user
 	  return null
@@ -49,6 +49,8 @@ export function useFetchUser({ required } = {}) {
     return window.__user || null
   })
 
+  const token = Cookie.get('token')
+
   useEffect(
     () => {
       if (!loading && user) {
@@ -57,7 +59,7 @@ export function useFetchUser({ required } = {}) {
       setLoading(true)
       let isMounted = true
 
-      fetchUser().then((user) => {
+      fetchUser(token).then((user) => {
         // Only set the user if the component is still mounted
         if (isMounted) {
           // When the user is not logged in but login is required
@@ -78,5 +80,5 @@ export function useFetchUser({ required } = {}) {
     []
   )
 
-  return { user, loading }
+  return { user, token, loading}
 }

@@ -1,5 +1,5 @@
 const router = require('express').Router({mergeParams: true});
-const config = require('../../config');
+const config = require('../config');
 
 
 
