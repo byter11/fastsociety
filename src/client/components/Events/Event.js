@@ -6,7 +6,7 @@ import { faStar, faHourglassStart, faHourglassEnd } from '@fortawesome/free-soli
 
 const Event = ({ data, showRatingModal=()=>{}}) => {
     const { id, textContent, createdOn, startTime, endTime, image, rating, userRating, User_id, society } = data;
-    console.log(userRating);
+    
     const handleComment = () => {
 
     }
@@ -33,9 +33,9 @@ const Event = ({ data, showRatingModal=()=>{}}) => {
                     }
                 </Row>
                 <Row className="justify-content-between">
-                    <Col xs={8}>
+                    <Col style={{cursor:'pointer'}} xs={8}>
                         <Link href={`/society/${society.id}`}>
-                            <span><Image className="m-2" src={image} roundedCircle height={40} width={40} />
+                            <span><Image className="m-2" src={society.image} roundedCircle height={40} width={40} />
                                 <b>{society.title}</b></span>
                         </Link>
                         <span> added an </span>
@@ -52,7 +52,14 @@ const Event = ({ data, showRatingModal=()=>{}}) => {
                         <span> {rating || 0}</span>
                     </Col>
                 </Row>
-                <Row className="px-2"><p>{textContent}</p></Row>
+                <Link href={`/event/${id}`}><span style={{cursor: 'pointer'}}>
+                    <Row className="px-2"><p>{textContent}</p></Row>
+                    <Row>
+                        <Col className="text-center">
+                        <Image fluid rounded className="p-2" src={image}></Image>
+                        </Col>
+                    </Row></span>
+                </Link>
                 <Row>
                     <div className="btn-group">
                         <Button href="#rating" onClick={()=>showRatingModal(id, userRating)} variant="light">Rate</Button>
@@ -60,6 +67,7 @@ const Event = ({ data, showRatingModal=()=>{}}) => {
                         <Button onClick={handleShare} variant="light">Share</Button>
                     </div>
                 </Row>
+                
             </Container>
         </Card>
 

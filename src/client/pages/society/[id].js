@@ -19,7 +19,7 @@ const Society = () => {
         })
     }, [router.isReady]);
 
-    return society
+    return JSON.stringify(society);
     //? society page UI
     //:     society page loading UI
 }

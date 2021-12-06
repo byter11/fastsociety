@@ -6,7 +6,11 @@ const {verify} = require('../../services/jwt');
 
 router.get('/:eventId', (req, res) => {
     const { eventId } = req.params;
-    getOne({where: 'id', value: eventId});
+    getOne({where: {id: eventId}}, (error, results) => {
+        if(error)
+            return res.status(500).send();
+        
+    });
 });
 
 router.get('/', verify, (req, res) => {

@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
     const { eventId } = req.params;
     const count = req.query.count || 5, offset= req.query.offset;
 
-    getMultiple({where: {eventId: eventId}, offset: offset, limit: count}, 
+    getMultiple({where: {Event_id: eventId}, offset: offset, limit: count}, 
         (errors, results) => {
             if(errors)
                 res.status(500).send(errors);

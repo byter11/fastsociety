@@ -1,10 +1,19 @@
 const db = require('./db');
 const { buildConditions } = require('../utils');
 
+const getOne = ({where={}}, cb) => {
+	const {conditions, values} = buildConditions(where);
+	// db.query({
+	// 	sql: `SELECT e.id, e.textContent, e.createdOn, e.star`
+	// })
+}
+
 const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
     const {conditions, values} = buildConditions(where);
 	db.query({
-		sql: `SELECT e.*, s.*, avg(r.stars) as rating, (select stars from review where User_id = ? AND Event_id = e.id) as userRating
+		sql: `SELECT e.id, e.textContent, e.createdOn, e.startTime, e.endTime, e.image, 
+		s.id, s.title, s.image, 
+		avg(r.stars) as rating, (SELECT stars FROM review WHERE User_id = ? AND Event_id = e.id) AS userRating
 		FROM event e
 		LEFT JOIN society s ON s.id = e.Society_id
 		LEFT JOIN review r ON r.Event_id = e.id

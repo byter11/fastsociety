@@ -92,7 +92,7 @@ DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `textContent` varchar(300) DEFAULT NULL,
   `createdOn` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `image` varchar(255) DEFAULT NULL,
