@@ -11,9 +11,9 @@ const PostsView = ({eventId}) => {
     // const {user, token} = useFetchUser();
 
     const fetchPosts = () => {
-        fetch(`/api/${eventId}/posts/${posts.length}`,{
+        fetch(`/api/event/${eventId}/post?offset=${posts.length || 0}`,{
             method: 'GET',
-            headers: {'Content-Type': 'application/json', token: token}
+            headers: {'Content-Type': 'application/json'}
         })
         .then(res => res.json())
         .then(newPosts => {
@@ -55,7 +55,7 @@ const PostsView = ({eventId}) => {
                 key={index} 
             />
         ))}
-        {hasMore && <div  className="text-center"><Button variant="light" onClick={fetchEvents}>Load More</Button></div>}
+        {hasMore && <div  className="text-center"><Button variant="light" onClick={fetchPosts}>Load More</Button></div>}
         </InfiniteScroll>
         </>
 }

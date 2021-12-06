@@ -4,7 +4,7 @@ const { getMultiple } = require('../db/post');
 
 router.get('/', (req, res) => {
     const { eventId } = req.params;
-    const count = req.query.count || 5, offset= req.query.offset;
+    const count = +req.query.count || 5, offset = +req.query.offset || 0;
 
     getMultiple({where: {Event_id: eventId}, offset: offset, limit: count}, 
         (errors, results) => {

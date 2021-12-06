@@ -1,12 +1,12 @@
 const fse = require( "fs-extra" );
 const { join } = require( "path" );
 
-const buildConditions = (where) => {
+const buildConditions = (where, prefix='') => {
    const conditionList = Object.entries(where).filter(([_, val]) => 
         typeof(val) !== 'undefined'
     );
    const conditions = conditionList.map(([k,v]) => {
-      return `${k} IN (${Array(v.length).fill('?')})`
+      return `${prefix}${k} IN (${Array(v.length).fill('?')})`
    }).join(' AND ');
    
    const values = conditionList.map(([_,v]) => v).flat();

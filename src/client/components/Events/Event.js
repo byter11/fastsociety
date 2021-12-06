@@ -6,7 +6,7 @@ import { faStar, faHourglassStart, faHourglassEnd } from '@fortawesome/free-soli
 
 const Event = ({ data, showRatingModal=()=>{}}) => {
     const { id, textContent, createdOn, startTime, endTime, image, rating, userRating, User_id, society } = data;
-    
+
     const handleComment = () => {
 
     }

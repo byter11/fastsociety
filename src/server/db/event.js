@@ -1,15 +1,8 @@
 const db = require('./db');
 const { buildConditions } = require('../utils');
 
-const getOne = ({where={}}, cb) => {
-	const {conditions, values} = buildConditions(where);
-	// db.query({
-	// 	sql: `SELECT e.id, e.textContent, e.createdOn, e.star`
-	// })
-}
-
 const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
-    const {conditions, values} = buildConditions(where);
+    const {conditions, values} = buildConditions(where, 'e.');
 	db.query({
 		sql: `SELECT e.id, e.textContent, e.createdOn, e.startTime, e.endTime, e.image, 
 		s.id, s.title, s.image, 
@@ -23,6 +16,7 @@ const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
 		nestTables: true, 
 		values: [user, ...values, offset, limit],
 	},(error, results, fields) => {
+			console.log(error)
 			if (error) cb(error);
 			const data = results.map(obj => {
 				delete obj.e.Society_id;

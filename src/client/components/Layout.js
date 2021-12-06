@@ -55,7 +55,7 @@ const Layout = ({
 
             {children}
 
-            <footer style={{bottom: 0, position: 'absolute'}}>{'yo'}</footer>
+            {/* <footer style={{bottom: 0, position: 'absolute'}}>{'yo'}</footer> */}
             </div>
         </div>
     )
