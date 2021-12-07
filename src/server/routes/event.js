@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const config = require('../../config');
-const { getOne, getMultiple } = require('../../db/event');
+const config = require('../config');
+const { getOne, getMultiple } = require('../db/event');
 const jwt = require('jsonwebtoken');
-const {verify} = require('../../services/jwt');
+const {verify} = require('../services/jwt');
 
 router.get('/:eventId', (req, res) => {
     const { eventId } = req.params;
