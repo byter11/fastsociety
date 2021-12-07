@@ -28,6 +28,7 @@ router.get('/', verify, (req, res) => {
         (errors, results) => {
             if(errors)
                 return res.status(500).send(errors);
+            console.log(results);
             return res.status(200).send(results);
         }
     )

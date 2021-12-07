@@ -35,8 +35,8 @@ const Event = ({ data, showRatingModal=()=>{}}) => {
                 <Row className="justify-content-between">
                     <Col style={{cursor:'pointer'}} xs={8}>
                         <Link href={`/society/${society.id}`}>
-                            <span><Image className="m-2" src={society.image} roundedCircle height={40} width={40} />
-                                <b>{society.title}</b></span>
+                            <span><Image className="m-2" src={society.image || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='} roundedCircle height={40} width={40} />
+                                <b>{society.title || '[deleted]'}</b></span>
                         </Link>
                         <span> added an </span>
                         <Link href={`/event/${id}`}>

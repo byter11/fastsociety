@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 				id: getUserId(results.email),
 				name: results.name,
 				email: results.email,
-				image: results.image	
+				image: results.image
 			}
 
 			return res.status(200).json(user);

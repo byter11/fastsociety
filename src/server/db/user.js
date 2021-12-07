@@ -18,7 +18,7 @@ const getOne = ({where, value}, cb) => {
 	db.query(
 		`SELECT name, email, image
 		FROM user
-		WHERE ${where} = ?`,
+		WHERE ${where} = ? LIMIT 1`,
 		[value],
 		(error, results=[], fields) => {
 			cb(error, results[0], fields)

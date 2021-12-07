@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
 
 const Post = ({ data }) => {
-    const { id, image, textContent, createdOn, image, user } = data;
+    const { id, image, textContent, createdOn, user } = data;
 
     return <>
         <Card className="m-2">

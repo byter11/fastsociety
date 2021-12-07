@@ -16,14 +16,14 @@ const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
 		nestTables: true, 
 		values: [user, ...values, offset, limit],
 	},(error, results, fields) => {
-			console.log(error)
+			console.log(results);
 			if (error) cb(error);
 			const data = results.map(obj => {
 				delete obj.e.Society_id;
 				obj.e.society = obj.s;
 				return Object.assign(obj.e, obj['']);
-			})
-			cb(error, data, fields)
+			});
+			cb(error, data.filter(obj => obj.id !== null), fields);
 		}
 	);
 }
