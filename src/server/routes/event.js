@@ -24,7 +24,7 @@ router.get('/', verify, (req, res) => {
 
     // console.log(count,offset,societies);
 
-    getMultiple({where: {societyId: societies}, offset: offset, limit: count, user: userId},
+    getMultiple({where: {Society_id: societies}, offset: offset, limit: count, user: userId},
         (errors, results) => {
             if(errors)
                 return res.status(500).send(errors);

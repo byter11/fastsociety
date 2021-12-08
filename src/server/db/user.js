@@ -1,3 +1,4 @@
+const { buildConditions } = require('../utils');
 const db = require('./db');
 
 const upsert = (data, cb) => {
@@ -14,16 +15,21 @@ const upsert = (data, cb) => {
 	);
 }
 
-const getOne = ({where, value}, cb) => {
+const getOne = ({where, offset=0, limit=100000}, cb) => {
+	const {conditions, values} = buildConditions(where);
 	db.query(
 		`SELECT name, email, image
 		FROM user
-		WHERE ${where} = ? LIMIT 1`,
-		[value],
+		${conditions ? 'WHERE ' + conditions : ''} 
+		LIMIT ?, ?`,
+		[...values, offset, limit],
 		(error, results=[], fields) => {
+			console.log(error, results);
 			cb(error, results[0], fields)
 		}
 	);
 }
+
+
 
 module.exports = {upsert, getOne}
