@@ -1,6 +1,19 @@
 const db = require('./db');
 const { buildConditions } = require('../utils');
 
+const insert = (values, cb) => {
+	const {venue, textContent, startTime, endTime, image, User_id, Society_id} = values;
+
+	db.query({
+		sql: `INSERT INTO Event
+		(venue, textContent, startTime, endTime, image, User_id, Society_id)
+		VALUES (?, ?, ?, ?, ?, ?, ?)`,
+		values: [venue, textContent, startTime, endTime, image, User_id, Society_id]
+	}, (error) => {
+			cb(error);
+	});
+}
+
 const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
 	limit = 10;
     const {conditions, values} = buildConditions(where, 'e.');

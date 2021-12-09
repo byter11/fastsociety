@@ -6,7 +6,7 @@ import Link from 'next/link';
 const AddEventBox = () => {
     const {user, loading, token} = useFetchUser();
     const [society, setSociety] = useState(null);
-    const [dropDown, setDropDown] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [eventData, setEventData] = useState({
       
     });
@@ -35,16 +35,12 @@ const AddEventBox = () => {
         console.log(name, value);
     }
 
-
-    const handleSubmit = () => {
-
-    }
-
     const postEvent = () => {
+        setShowModal(false);
         fetch('/api/event/',{
             method: 'POST',
             headers: {'Content-Type': 'application/json', token: token},
-            body: eventData
+            body: JSON.stringify(eventData)
         })
         .then((res) => console.log(res));
     }
@@ -63,16 +59,16 @@ const AddEventBox = () => {
             
                 <div 
                     className='p-2 m-2 flex-fill d-flex bg-light rounded-pill border text-muted hover'
-                    onClick={()=>setDropDown(true)}
+                    onClick={()=>setShowModal(true)}
                 >
                     Create an event...
                 </div>
         </div>
     </Container>
 
-    <Modal show={dropDown} onHide={()=>setDropDown(false)}>
+    <Modal show={showModal} onHide={()=>setShowModal(false)}>
         <Modal.Body>
-            <Form onSubmit={postEvent}>
+            {/* <Form onSubmit={postEvent}> */}
                 <div className="d-flex flex-wrap">
                     <Link href={`/society/${society.id}`}>
                         <Image className="m-2" src={society.image || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='} roundedCircle height={40} width={40} />
@@ -90,14 +86,12 @@ const AddEventBox = () => {
                 <input
                     type="date"
                     name="date"
-                    value={null}
                     onChange={handleChange}
                     style={{border:'none'}}/>
                 <div className="m-2 d-flex flex-wrap justify-content-between">
                     <input
                         type="time"
                         name="startTime"
-                        value={null}
                         onChange={handleChange}
                         style={{border: 'none'}}
                         />
@@ -105,7 +99,6 @@ const AddEventBox = () => {
                     <input
                         type="time"
                         name="endTime"
-                        value={null}
                         onChange={handleChange}
                         style={{border: 'none'}}
                         />
@@ -117,7 +110,6 @@ const AddEventBox = () => {
                         placeholder="Venue"
                         type="text"
                         name="venue"
-                        value={null}
                         onChange={handleChange}
                         />
                 {/* </FloatingLabel> */}
@@ -130,12 +122,10 @@ const AddEventBox = () => {
                     />
                 </FloatingLabel>
 
-                <Row>
-                    <Col className=''><Button style={{width: '100%'}} className="my-1" variant="primary" type="submit">
+                <Button onClick={postEvent} style={{width: '100%'}} className="my-1" variant="primary" type="submit">
                         Post Event
-                    </Button></Col>
-                </Row>
-            </Form>
+                </Button>
+            {/* </Form> */}
         </Modal.Body>
     </Modal>
     </>

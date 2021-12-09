@@ -1,10 +1,14 @@
 const jwt = require('jsonwebtoken');
+const User = require('../db/user');
 
 module.exports = {
     verify: (req, res, next) => {
         jwt.verify(req.headers.token, config.jwtSecret, (err, decoded) => {
-            req.body.userId = decoded;
-            next();
+            User.getOne({where: {id: [decoded]}}, (error, results) => {
+                if(!error)
+                    req.body.user = results; 
+                next();
+            });
         });
     }
 }

@@ -6,12 +6,13 @@ const { upsert } = require('../db/rating');
 
 router
 .post('/', verify, (req, res) => {
-    const {userId, rating} = req.body;
-    if (!userId)
+    const {user, rating} = req.body;
+    if (!user)
         return res.status(401).send();
 
     const {eventId} = req.params;
-
+    const userId = user.id;
+    
     upsert({userId, eventId, rating}, (error, results) => {
         if (error)
             return res.status(500).send();

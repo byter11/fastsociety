@@ -1,5 +1,5 @@
 const db = require('./db');
-
+// TODO: delet this
 const getUserPermissions = (userId) => {
 	db.query(
 		`SELECT Society_id, name, createEvent, createPost, deleteEvent, deletePost

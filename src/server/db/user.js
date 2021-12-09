@@ -30,7 +30,8 @@ const getOne = ({where}, cb) => {
 		${conditions ? 'WHERE ' + conditions : ''}`,
 		[...values, ...values],
 		(error, results=[], fields) => {
-			// console.log(error, results);
+			if(error)
+				cb(error)
 			const user = results[0][0];
 			// console.log(results[1]);
 			user.societies = results[1].map(obj => ({
@@ -42,8 +43,7 @@ const getOne = ({where}, cb) => {
 					createEvent: obj.createEvent
 				}
 			}));
-
-			console.log(user);
+			// console.log(user);
 			cb(error, user, fields)
 		}
 	);
