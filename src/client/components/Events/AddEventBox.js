@@ -52,8 +52,11 @@ const AddEventBox = () => {
     if (!society) return <></>;
     return <>
     <Container>
-        <div className="d-flex flex-wrap"
-        style={{cursor: 'pointer'}}>
+        <div className="d-flex flex-wrap m-auto"
+        style={{
+            cursor: 'pointer',
+            maxWidth: 768
+            }}>
                 <Link href={`/society/${society.id}`}>
                     <Image className="my-2" src={society.image || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='} roundedCircle height={40} width={40} />
                 </Link>
