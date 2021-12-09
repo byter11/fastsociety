@@ -5,3 +5,10 @@ html, body {
 .container-fluid {
     padding: 0;
 }
+
+.hover {
+
+}
+.hover:hover {
+    opacity: 80%;
+}
