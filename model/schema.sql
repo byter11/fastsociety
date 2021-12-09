@@ -251,3 +251,39 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO `fastsociety`.`User` (`id`, `name`, `email`, `image`)
+VALUES ('103296335140967313495', 'Mohsin Shaikh', 'k191308@nu.edu.pk', 'https://lh3.googleusercontent.com/a/AATXAJxhrAZgsRKmqei3QmfYReaEKoTzvVGCqRWLhNO5=s96-c');
+
+INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
+VALUES (1, 'app', 'fastsociety', 'https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554__340.jpg', '103296335140967313495');
+
+INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
+VALUES (2, 'app2', 'fastsociety2', 'https://cdn.pixabay.com/photo/2017/11/13/07/14/cats-eyes-2944820__340.jpg', '103296335140967313495');
+
+INSERT INTO `fastsociety`.`Role` (id, name, createEvent, deleteEvent, createPost, deletePost, Society_id)
+VALUES (1, 'Head', 1,1,1,1, 1);
+
+INSERT INTO `fastsociety`.`Role` (id, name, Society_id)
+VALUES (2, 'Member', 1);
+
+INSERT INTO `fastsociety`.`Role` (id, name, createEvent, deleteEvent, createPost, deletePost, Society_id)
+VALUES (3, 'Head', 1,1,1,1, 2);
+
+INSERT INTO `fastsociety`.`Role` (id, name, Society_id)
+VALUES (4, 'Member', 2);
+
+INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_id)
+VALUES ('103296335140967313495', 1, 1);
+
+INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_id)
+VALUES ('103296335140967313495', 2, 4);
+
+INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `startTime`, `endTime`, `image`, `User_id`, `Society_id`)
+VALUES (1, 'app creation', '2021-12-01 00:00:00', '2021-12-15 10:00:00', 'https://cdn.pixabay.com/photo/2017/11/14/13/06/kitty-2948404__340.jpg', '103296335140967313495', 1);
+
+INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `startTime`, `endTime`, `image`, `User_id`, `Society_id`)
+VALUES (2, 'app2 creation', '2021-12-10 00:00:00', '2021-12-15 08:00:00', 'https://cdn.pixabay.com/photo/2021/12/01/14/10/cat-eyes-6838073__340.jpg', '103296335140967313495', 2);
+
+INSERT INTO `fastsociety`.`Post` (`textContent`, `image`, `User_id`, `Event_id`)
+VALUES ('look at dis cat', 'https://cdn.pixabay.com/photo/2017/07/24/19/57/tiger-2535888__340.jpg', '103296335140967313495', 1);

@@ -9,10 +9,10 @@ router
     const {user, rating} = req.body;
     if (!user)
         return res.status(401).send();
-
+    // console.log(user);
     const {eventId} = req.params;
     const userId = user.id;
-    
+
     upsert({userId, eventId, rating}, (error, results) => {
         if (error)
             return res.status(500).send();

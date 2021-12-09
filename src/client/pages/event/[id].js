@@ -1,5 +1,6 @@
 import { useRouter } from 'next/dist/client/router';
 import { useEffect, useState } from 'react';
+import { useFetchUser } from '../../hooks/user';
 import Layout from '../../components/Layout';
 import Event from '../../components/Events/Event';
 import PostsView from '../../components/Posts/PostsView';
@@ -7,6 +8,7 @@ import PostsView from '../../components/Posts/PostsView';
 const EventPage = () => {
     const router = useRouter();
     const [event, setEvent] = useState(null);
+    const {token} = useFetchUser();
 
     useEffect(() => {
         if(!router.isReady) return;
@@ -14,7 +16,7 @@ const EventPage = () => {
         console.log('id', id);
         fetch(`/api/event/${id}`, {
             method: 'GET',
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json', token: token}
         })
         .then(res => res.json())
         .then(event => {
@@ -26,7 +28,7 @@ const EventPage = () => {
     return <Layout>
         {
             event && <>
-            <Event data={event}/>
+            <Event data={event} controls={false}/>
             <hr/>
             <h2 className='text-center text-muted'>Updates</h2>
             <PostsView eventId={event.id}/>

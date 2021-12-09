@@ -6,7 +6,7 @@ const config = require('../config');
 
 router.get('/:id', (req, res) => {
 	const {id} = req.params;
-	console.log(id);
+	// console.log(id);
 	Society.getOne({where: {id: id}},
 	(errors, results, fields) => {
 		if(errors)

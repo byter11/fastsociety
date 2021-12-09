@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import Link from 'next/link';
 
 const AddEventBox = () => {
-    const {user, loading, token} = useFetchUser();
+    const {user, token} = useFetchUser();
     const [society, setSociety] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [eventData, setEventData] = useState({
@@ -12,40 +12,45 @@ const AddEventBox = () => {
     });
 
     useEffect(()=>{
-        if(loading)
+        if(!user)
             return;
-
+        user.societies = user.societies.filter(s => s.role.createEvent);
         setSociety( (_) =>{
-            const society = user.societies.filter(s => s.role.createEvent)[0]
-            setEventData((old) => ({...old, Society_id: society.id}))
+            const society = user.societies[0]
+            if(society)
+                setEventData((old) => ({...old, Society_id: society.id}))
             return society;
         });
         
-    }, [loading]);
+    }, [user]);
 
     const handleChange = e => {
-        const {name, value} = e.target;
+        const {name, value, files} = e.target;
         if(name == 'Society_id')
             setSociety(user.societies.filter(s=>s.id == value)[0])
         if(name == 'startTime' || name == 'endTime' && eventData.date)
             value = eventData.date + ' ' + value;
         
-        setEventData((e) => ({...e, [name]: value}));
+        setEventData((e) => ({...e, [name]: files? files[0] : value}));
         console.log(eventData);
-        console.log(name, value);
     }
 
     const postEvent = () => {
         setShowModal(false);
+        const formData = new FormData();
+        for(var key in eventData)
+            formData.append(key, eventData[key]);
+            
         fetch('/api/event/',{
             method: 'POST',
-            headers: {'Content-Type': 'application/json', token: token},
-            body: JSON.stringify(eventData)
+            headers: {token: token},
+            body: formData
         })
         .then((res) => console.log(res));
     }
 
     if (!society) return <></>;
+    console.log(!!society)
     return <>
     <Container>
         <div className="d-flex flex-wrap m-auto"
@@ -73,7 +78,7 @@ const AddEventBox = () => {
                     <Link href={`/society/${society.id}`}>
                         <Image className="m-2" src={society.image || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='} roundedCircle height={40} width={40} />
                     </Link>
-                    <Form.Select 
+                    <Form.Select value={society.id} 
                         className="my-2" 
                         style={{ border: 0, width: '10rem'}}
                         name="Society_id"
@@ -121,7 +126,8 @@ const AddEventBox = () => {
                     style={{ height: '100px' }}
                     />
                 </FloatingLabel>
-
+                
+                <input type='file' name="image" onChange={handleChange}/>
                 <Button onClick={postEvent} style={{width: '100%'}} className="my-1" variant="primary" type="submit">
                         Post Event
                 </Button>

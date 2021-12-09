@@ -5,10 +5,11 @@ const User = require('../db/user');
 const jwt = require('jsonwebtoken');
 const {verify} = require('../services/jwt');
 
-router.get('/:eventId', (req, res) => {
+router.get('/:eventId', verify, (req, res) => {
+    const userId = (req.body.user || {}).id || '';
     const { eventId } = req.params;
 
-    Event.getMultiple({where: {id: eventId}, offset: 0, limit: 1}, (error, results) => {
+    Event.getMultiple({where: {id: eventId}, offset: 0, limit: 1, user: userId}, (error, results) => {
         if(error)
             return res.status(500).send();
         res.status(200).send(results[0]);
@@ -29,21 +30,38 @@ router.get('/', verify, (req, res) => {
         (errors, results) => {
             if(errors)
                 return res.status(500).send(errors);
-            console.log(results);
             return res.status(200).send(results);
         }
     )
 })
 
 router.post('/', verify, (req, res) => {
+    // console.log(req.body);
     const {user, Society_id} = req.body;
     if (!user)
         return res.status(401).send();
+    const {image} = req.files;
+    if(image){
+        const path = 'public/images/' + image.name;
+        
+        image.mv(path, (err) => {
+            if(err){
+                console.log(err);
+                return res.sendStatus(500);
+            }
+        });
+        req.body.image = '/images/' + image.name;
+    }
     
     if(user.societies.filter(s => s.id == Society_id && s.role.createEvent).length === 0)
         return res.status(401).send('User does not have permission to create event');
     
-    console.log(user.societies.filter(s => s.id == Society_id && s.role.createEvent))
-    return res.status(200).send('Added event');
+    req.body.User_id = user.id;
+    console.log(req.body);
+    Event.insert(req.body, (error) => {
+        if (error)
+            return res.status(500).send();
+        return res.sendStatus(200);
+    });
 })
 module.exports = router;

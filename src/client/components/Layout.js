@@ -28,7 +28,7 @@ const Layout = ({
             <header>
                 <Navbar bg="light">
                     {/* <Container> */}
-                        <Navbar.Brand className='mx-auto' href="/">fastsociety</Navbar.Brand>
+                        <Navbar.Brand className='mx-auto' style={{paddingLeft: '100px'}} href="/">fastsociety</Navbar.Brand>
                         {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
                         {/* <Navbar.Collapse id="basic-navbar-nav"> */}
                             {/*     <Nav className="me-auto">

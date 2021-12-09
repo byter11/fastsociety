@@ -8,7 +8,7 @@ const Post = ({ data }) => {
     const { id, image, textContent, createdOn, user } = data;
 
     return <>
-        <Card className="m-2">
+        <Card className="m-2 shadow-sm">
             <Container fluid>
                 <Row className="justify-content-between">
                     <Col style={{cursor:'pointer'}} xs={8}>
@@ -23,7 +23,7 @@ const Post = ({ data }) => {
                 <Row className="px-2"><p>{textContent}</p></Row>
                 <Row>
                         <Col className="text-center">
-                        <Image fluid rounded className="p-2" src={image}></Image>
+                        <Image fluid rounded className="p-2 grow" src={image}></Image>
                         </Col>
                 </Row>
 

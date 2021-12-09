@@ -2,6 +2,7 @@ const express = require('express');
 const next = require('next');
 const dev = process.env.NODE_ENV !== 'production';
 const config = require('./config');
+const fileUpload = require('express-fileupload');
 // const os = require('os');
 
 const app = next({ dev, dir: './src/client' })
@@ -12,6 +13,8 @@ app.prepare()
 	const server = express();
 	server.use(express.urlencoded({extended: true}));
 	server.use(express.json());
+	server.use(fileUpload());
+	server.use(express.static('public'));
 	const routes = require('./routes')(server);
 	
 	server.get('*', (req, res) => {

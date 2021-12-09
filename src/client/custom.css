@@ -12,3 +12,6 @@ html, body {
 .hover:hover {
     opacity: 80%;
 }
+
+.grow { transition: all .1s ease-in-out; }
+.grow:hover { transform: scale(1.002); }

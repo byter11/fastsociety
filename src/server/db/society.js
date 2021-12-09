@@ -25,7 +25,6 @@ const getMembers = (societyId, cb) => {
 		WHERE reg.Society_id = ?`,
 		[societyId],
 		(error, results=[], fields) => {
-			console.log(error, results);
 			cb(error, results, fields);
 		}
 	)

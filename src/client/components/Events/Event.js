@@ -4,9 +4,8 @@ import { Card, Container, Row, Col, Modal, Image, Button } from 'react-bootstrap
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
 
-const Event = ({ data, showRatingModal=()=>{}}) => {
+const Event = ({ data, showRatingModal=()=>{}, controls=true}) => {
     const { id, textContent, createdOn, startTime, endTime, image, rating, userRating, User_id, society } = data;
-
     const handleComment = () => {
 
     }
@@ -16,19 +15,19 @@ const Event = ({ data, showRatingModal=()=>{}}) => {
     }
 
     return <>
-        <Card className="m-2">
+        <Card className="m-2 shadow">
             <Container fluid>
                 <Row className="justify-content-between m-1">
                     {startTime &&
                         <Col>
-                            <FontAwesomeIcon icon={faHourglassStart} />
-                            {startTime}
+                            <FontAwesomeIcon icon={faHourglassStart} className="mx-2"/>
+                            {new Date(startTime).toLocaleString()}
                         </Col>
                     }
                     {endTime &&
                         <Col className="text-end">
-                            <FontAwesomeIcon icon={faHourglassEnd} />
-                            {endTime}
+                            <FontAwesomeIcon icon={faHourglassEnd} className="mx-2"/>
+                            {new Date(endTime).toLocaleString()}
                         </Col>
                     }
                 </Row>
@@ -60,6 +59,7 @@ const Event = ({ data, showRatingModal=()=>{}}) => {
                         </Col>
                     </Row></span>
                 </Link>
+                {controls &&
                 <Row>
                     <div className="btn-group">
                         <Button href="#rating" onClick={()=>showRatingModal(id, userRating)} variant="light">Rate</Button>
@@ -67,7 +67,7 @@ const Event = ({ data, showRatingModal=()=>{}}) => {
                         <Button onClick={handleShare} variant="light">Share</Button>
                     </div>
                 </Row>
-                
+                }
             </Container>
         </Card>
 
