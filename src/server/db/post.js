@@ -6,8 +6,8 @@ const getMultiple = ({where={}, limit=10, offset=0}, cb) => {
 	db.query({
 		sql: `SELECT p.id, p.textContent, p.createdOn, p.image,
 		u.id, u.name, u.image
-		FROM post p
-		LEFT JOIN user u ON u.id = p.User_id
+		FROM Post p
+		LEFT JOIN User u ON u.id = p.User_id
 		${conditions ? 'WHERE ' + conditions : ''}
         ORDER BY createdOn desc
         LIMIT ?, ?`,

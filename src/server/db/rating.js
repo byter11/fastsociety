@@ -3,7 +3,7 @@ const db = require('./db');
 const upsert = (data, cb) => {
 	const {eventId, userId, rating} = data;
 	db.query(
-		`INSERT INTO review (User_id, Event_id, stars)
+		`INSERT INTO Review (User_id, Event_id, stars)
          VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE
          stars = ?`,

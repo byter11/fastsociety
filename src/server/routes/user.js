@@ -4,11 +4,12 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 
 router.get('/', (req, res) => {
-	// console.log(req.headers.token);
+	
 	jwt.verify(req.headers.token, config.jwtSecret, (err, decoded) => {
 		if(err)
 			return res.status(401).send(err);
 		
+			
 		getOne({where: {id: [decoded]}},
 		(errors, results) => {
 			if(errors){
@@ -20,9 +21,10 @@ router.get('/', (req, res) => {
 				id: getUserId(results.email),
 				name: results.name,
 				email: results.email,
-				image: results.image
+				image: results.image,
+				societies: results.societies
 			}
-
+			
 			return res.status(200).json(user);
 		});
 	});

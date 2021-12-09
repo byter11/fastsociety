@@ -8,10 +8,10 @@ const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
 	const fields = 'e.id, e.textContent, e.createdOn, e.startTime, e.endTime, e.image, s.id, s.title, s.image';
 	db.query({
 		sql: `SELECT ${fields},
-		avg(r.stars) as rating, (SELECT stars FROM review WHERE User_id = ? AND Event_id = e.id) AS userRating
+		avg(r.stars) as Rating, (SELECT stars FROM review WHERE User_id = ? AND Event_id = e.id) AS userRating
 		FROM event e
-		LEFT JOIN society s ON s.id = e.Society_id
-		LEFT JOIN review r ON r.Event_id = e.id
+		LEFT JOIN Society s ON s.id = e.Society_id
+		LEFT JOIN Review r ON r.Event_id = e.id
 		${conditions ? 'WHERE ' + conditions : ''}
 		GROUP BY ${fields}
         ORDER BY createdOn desc

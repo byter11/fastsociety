@@ -1,10 +1,11 @@
+const { useRouter } = require('next/router');
 const { buildConditions } = require('../utils');
 const db = require('./db');
 
 const upsert = (data, cb) => {
 	const {id, name, email, image} = data;
 	db.query(
-		`INSERT INTO user (id, name, email, image)
+		`INSERT INTO User (id, name, email, image)
 		 VALUES (?, ?, ?, ?)
 		 ON DUPLICATE KEY UPDATE
 		 name = ?, image = ?`,
@@ -15,21 +16,37 @@ const upsert = (data, cb) => {
 	);
 }
 
-const getOne = ({where, offset=0, limit=100000}, cb) => {
-	const {conditions, values} = buildConditions(where);
+const getOne = ({where}, cb) => {
+	const {conditions, values} = buildConditions(where, 'u.');
 	db.query(
-		`SELECT name, email, image
-		FROM user
-		${conditions ? 'WHERE ' + conditions : ''} 
-		LIMIT ?, ?`,
-		[...values, offset, limit],
+		`SELECT u.name, u.email, u.image
+		FROM User u
+		${conditions ? 'WHERE ' + conditions : ''};
+		SELECT s.id, s.title, s.image, r.id AS roleId, r.name, r.createPost, r.createEvent
+		FROM Registration reg
+		LEFT JOIN User u ON u.id = reg.User_id
+		LEFT JOIN Society s ON s.id = reg.Society_id
+		LEFT JOIN Role r ON r.id = reg.Role_id
+		${conditions ? 'WHERE ' + conditions : ''}`,
+		[...values, ...values],
 		(error, results=[], fields) => {
-			console.log(error, results);
-			cb(error, results[0], fields)
+			// console.log(error, results);
+			const user = results[0][0];
+			// console.log(results[1]);
+			user.societies = results[1].map(obj => ({
+				id: obj.id, title: obj.title, image: obj.image,
+				role: {
+					id: obj.roleId, 
+					name: obj.name, 
+					createPost: obj.createPost, 
+					createEvent: obj.createEvent
+				}
+			}));
+
+			console.log(user);
+			cb(error, user, fields)
 		}
 	);
 }
-
-
 
 module.exports = {upsert, getOne}

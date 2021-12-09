@@ -53,9 +53,9 @@ const Society = () => {
     <Modal.Body>
         <Container>
             <Card>
-                <Row className="justify-content-start">
+                <Row className="justify-content-start"><Col>
                   Add
-                </Row>
+                </Col></Row>
             </Card>
             <Card>
                 {

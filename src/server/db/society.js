@@ -6,7 +6,7 @@ const getOne = ({where, value}, cb) => {
 
 	db.query(
 		`SELECT id, title, description, email, totalFollows, image
-		FROM society
+		FROM Society
 		${conditions ? 'WHERE ' + conditions : ''}`,
 		values,
 		(error, results=[], fields) => {
@@ -19,9 +19,9 @@ const getMembers = (societyId, cb) => {
 	db.query(
 		`SELECT u.name, u.email, u.image,
 		r.name AS roleName
-		FROM user u
-		JOIN registration reg ON u.id = reg.User_id
-		JOIN role r ON r.id = reg.Role_id
+		FROM User u
+		JOIN Registration reg ON u.id = reg.User_id
+		JOIN Role r ON r.id = reg.Role_id
 		WHERE reg.Society_id = ?`,
 		[societyId],
 		(error, results=[], fields) => {
