@@ -31,8 +31,11 @@ const getOne = ({where}, cb) => {
 		[...values, ...values],
 		(error, results=[], fields) => {
 			if(error)
-				cb(error)
+				return cb(error)
+			
 			const user = results[0][0];
+			if(!user)
+				return cb("User not found");
 			// console.log(results[1]);
 			user.societies = results[1].map(obj => ({
 				id: obj.id, title: obj.title, image: obj.image,

@@ -17,6 +17,8 @@ router.get('/:eventId', verify, (req, res) => {
 });
 
 router.get('/', verify, (req, res) => {
+    if(!req.body.user)
+        return res.status(200).send([]);
     const userId = (req.body.user || {}).id || '';
     const count = +req.query.count || 2;
     const offset = +req.query.offset || 0;
