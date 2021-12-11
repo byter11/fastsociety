@@ -32,7 +32,7 @@ const Society = () => {
 
     return <>
     <Layout>
-        <Container className='text-center'>
+        <Container className='text-center mt-3'>
                     {society.image ? <Image src={society.image} roundedCircle width={100} height={100}/>
                     : <Skeleton circle width={100} height={100}/>}
                     
@@ -54,14 +54,14 @@ const Society = () => {
         <Container>
             <Card>
                 <Row className="justify-content-start"><Col>
-                  Add
+                  Add Member
                 </Col></Row>
             </Card>
             <Card>
                 {
                 membersModal.members.map((member, i) =>
                     <Row key={i}>
-                        <Col>member.name</Col>
+                        <Col>{member.name}</Col>
                         {/* <Col>member.societies[society.id].role</Col> */}
                     </Row>
                 )
