@@ -1,6 +1,25 @@
 const db = require('./db');
 const { buildConditions } = require('../utils');
 
+
+const insert = (values, cb) => {
+  const { textContent, createdOn, image, User_id, Event_id } = values;
+
+  db.query(
+    {
+      sql: `INSERT INTO Post
+		(textContent, createdOn, image, User_id, Event_id)
+		VALUES (?, ?, ?, ?, ?)`,
+      values: [textContent, createdOn, image, User_id, Event_id],
+    },
+    (error) => {
+      cb(error);
+    }
+  );
+};
+
+
+
 const getMultiple = ({where={}, limit=10, offset=0}, cb) => {
     const {conditions, values} = buildConditions(where);
 	db.query({
@@ -26,4 +45,4 @@ const getMultiple = ({where={}, limit=10, offset=0}, cb) => {
 	);
 }
 
-module.exports = {getMultiple};
+module.exports = {getMultiple,insert};

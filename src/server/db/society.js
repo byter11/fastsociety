@@ -1,6 +1,23 @@
 const db = require('./db');
 const { buildConditions } = require('../utils');
 
+const upsert = (data, cb) => {
+  const { title, description, email, totalFollows, image, headId } = data;
+  db.query(
+    `INSERT INTO Society (title, description, email, totalFollows, image, headId)
+		 VALUES (?, ?, ?, ?, ?, ?)
+		 ON DUPLICATE KEY UPDATE
+		 title = ?, description = ?, totalFollows = ?, image = ?, headId = ?`,
+    [title, description, email, totalFollows, image, headId],
+    (error, results = [], fields) => {
+      cb(error, results[0]);
+    }
+  );
+};
+
+
+
+
 const getOne = ({where, value}, cb) => {
 	const {conditions, values} = buildConditions(where);
 
@@ -30,4 +47,4 @@ const getMembers = (societyId, cb) => {
 	)
 }
 
-module.exports = {getOne, getMembers};
+module.exports = {getOne, getMembers, upsert};
