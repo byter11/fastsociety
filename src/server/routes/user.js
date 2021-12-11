@@ -38,11 +38,12 @@ router.get('/:username', (req, res) => {
 			return res.status(500).json(errors);
 
 		const user = {
-			id: getUserId(results.email),
-			name: results.name,
-			email: results.email,
-			image: results.image	
-		}
+		id: getUserId(results.email),
+		name: results.name,
+		email: results.email,
+		image: results.image,
+		societies: results.societies,
+    };
 		return res.status(200).json(user);
 	});
 })
