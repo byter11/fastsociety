@@ -61,14 +61,13 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `fastsociety`.`Role` ;
 
 CREATE TABLE IF NOT EXISTS `fastsociety`.`Role` (
-  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `createPost` TINYINT NULL DEFAULT 0,
   `createEvent` TINYINT NULL DEFAULT 0,
   `deletePost` TINYINT NULL DEFAULT 0,
   `deleteEvent` TINYINT NULL DEFAULT 0,
   `Society_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`name`, `Society_id`),
   INDEX `fk_Role_Society1_idx` (`Society_id` ASC) VISIBLE,
   CONSTRAINT `fk_Role_Society1`
     FOREIGN KEY (`Society_id`)
@@ -86,15 +85,15 @@ DROP TABLE IF EXISTS `fastsociety`.`Registration` ;
 CREATE TABLE IF NOT EXISTS `fastsociety`.`Registration` (
   `User_id` VARCHAR(50) NOT NULL,
   `Society_id` INT NOT NULL,
-  `Role_id` INT NULL,
+  `Role_name` VARCHAR(45) NULL,
   `joinDate` DATE NULL DEFAULT (CURRENT_DATE),
   PRIMARY KEY (`User_id`, `Society_id`),
   INDEX `fk_Registration_Role1_idx` (`Role_id` ASC) VISIBLE,
   INDEX `fk_Registration_User1_idx` (`User_id` ASC) VISIBLE,
   INDEX `fk_Registration_Society1_idx` (`Society_id` ASC) VISIBLE,
   CONSTRAINT `fk_Registration_Role1`
-    FOREIGN KEY (`Role_id`)
-    REFERENCES `fastsociety`.`Role` (`id`)
+    FOREIGN KEY (`Role_name`)
+    REFERENCES `fastsociety`.`Role` (`name`)
     ON DELETE SET NULL
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Registration_User1`
@@ -261,23 +260,23 @@ VALUES (1, 'app', 'fastsociety', 'https://cdn.pixabay.com/photo/2014/11/30/14/11
 INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
 VALUES (2, 'app2', 'fastsociety2', 'https://cdn.pixabay.com/photo/2017/11/13/07/14/cats-eyes-2944820__340.jpg', '103296335140967313495');
 
-INSERT INTO `fastsociety`.`Role` (id, name, createEvent, deleteEvent, createPost, deletePost, Society_id)
-VALUES (1, 'Head', 1,1,1,1, 1);
+INSERT INTO `fastsociety`.`Role` (name, createEvent, deleteEvent, createPost, deletePost, Society_id)
+VALUES ('Head', 1, 1, 1, 1, 1);
 
-INSERT INTO `fastsociety`.`Role` (id, name, Society_id)
-VALUES (2, 'Member', 1);
+INSERT INTO `fastsociety`.`Role` (name, Society_id)
+VALUES ('Member', 1);
 
-INSERT INTO `fastsociety`.`Role` (id, name, createEvent, deleteEvent, createPost, deletePost, Society_id)
-VALUES (3, 'Head', 1,1,1,1, 2);
+INSERT INTO `fastsociety`.`Role` (name, createEvent, deleteEvent, createPost, deletePost, Society_id)
+VALUES ('Head', 1, 1, 1, 1, 2);
 
-INSERT INTO `fastsociety`.`Role` (id, name, Society_id)
-VALUES (4, 'Member', 2);
+INSERT INTO `fastsociety`.`Role` (name, Society_id)
+VALUES ('Member', 2);
 
-INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_id)
-VALUES ('103296335140967313495', 1, 1);
+INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
+VALUES ('103296335140967313495', 1, 'Head');
 
-INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_id)
-VALUES ('103296335140967313495', 2, 4);
+INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
+VALUES ('103296335140967313495', 2, 'Member');
 
 INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `startTime`, `endTime`, `image`, `User_id`, `Society_id`)
 VALUES (1, 'app creation', '2021-12-01 00:00:00', '2021-12-15 10:00:00', 'https://cdn.pixabay.com/photo/2017/11/14/13/06/kitty-2948404__340.jpg', '103296335140967313495', 1);
