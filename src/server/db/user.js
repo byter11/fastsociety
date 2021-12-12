@@ -26,7 +26,7 @@ const getOne = ({where}, cb) => {
 		FROM Registration reg
 		LEFT JOIN User u ON u.id = reg.User_id
 		LEFT JOIN Society s ON s.id = reg.Society_id
-		LEFT JOIN Role r ON r.name = reg.Role_name
+		LEFT JOIN Role r ON r.name = reg.Role_name AND r.Society_id = reg.Society_id
 		${conditions ? 'WHERE ' + conditions : ''}`,
 		[...values, ...values],
 		(error, results=[], fields) => {

@@ -10,9 +10,9 @@ const SocietyView = ({societies}) => {
         whiteSpace: 'nowrap'
       }}>
         {societies &&
-          societies.map((society) => {
+          societies.map((society, i) => {
             return (
-              <Link href={`/society/${society.id}`}>
+              <Link href={`/society/${society.id}`} key={i}>
               <Card className="link shadow d-inline-block m-1" style={{ width: "14rem", border:"1px solid gainsboro" }}>
                 <Row>
                   <Col>
@@ -24,11 +24,10 @@ const SocietyView = ({societies}) => {
                         borderRadius: "50%",
                         objectFit: "cover"
                       }}
-                      roundedCircle
                       width={200}
                       height={200}
                     />
-                    <Card.Title text-center><b>{society.title}</b></Card.Title>
+                    <Card.Title><b>{society.title}</b></Card.Title>
                   </Col>
                 </Row>
                 <Card.Body>
