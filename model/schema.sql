@@ -287,3 +287,6 @@ VALUES (2, 'app2 creation', '2021-12-10 00:00:00', '2021-12-15 08:00:00', 'https
 
 INSERT INTO `fastsociety`.`Post` (`textContent`, `image`, `User_id`, `Event_id`)
 VALUES ('look at dis cat', 'https://cdn.pixabay.com/photo/2017/07/24/19/57/tiger-2535888__340.jpg', '103296335140967313495', 1);
+
+INSERT INTO `fastsociety`.`Comment` (`id`, `textContent`, `User_id`, `Event_id`)
+VALUES (1, 'cool cat dud', '103296335140967313495', 1);
