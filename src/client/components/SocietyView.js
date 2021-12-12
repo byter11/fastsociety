@@ -1,15 +1,19 @@
 import React from 'react';
-import { Container, Row, Col, Image, Spinner, Card } from "react-bootstrap";
+import Link from 'next/link';
+import { Row, Col, Card } from "react-bootstrap";
 
 const SocietyView = ({societies}) => {
-
-    console.log(societies);
     return (
-      <>
+      <div style={{
+        overflowX: 'scroll',
+        overflowY: 'hidden',
+        whiteSpace: 'nowrap'
+      }}>
         {societies &&
           societies.map((society) => {
             return (
-              <Card className="shadow" style={{ width: "14rem", border:"1px solid gainsboro" }}>
+              <Link href={`/society/${society.id}`}>
+              <Card className="link shadow d-inline-block m-1" style={{ width: "14rem", border:"1px solid gainsboro" }}>
                 <Row>
                   <Col>
                     <Card.Img
@@ -24,16 +28,17 @@ const SocietyView = ({societies}) => {
                       width={200}
                       height={200}
                     />
-                    <Card.Title text-center>{society.title}</Card.Title>
+                    <Card.Title text-center><b>{society.title}</b></Card.Title>
                   </Col>
                 </Row>
                 <Card.Body>
                   <span>{society.role.name}</span>
                 </Card.Body>
               </Card>
+              </Link>
             );
           })}
-      </>
+      </div>
     );
 }
 

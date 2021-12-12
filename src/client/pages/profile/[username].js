@@ -39,9 +39,10 @@ const Profile = () => {
           <Skeleton circle width={100} height={100} />
         )}
 
-        <h1>{user.name || <Skeleton width={250} />}</h1>
+        <h2>{user.name || <Skeleton width={250} />}</h2>
         <pre>{user.email || <Skeleton width={200} />}</pre>
-
+		<hr/>
+		<h1 className="heading">SOCIETIES</h1>
 		<SocietyView societies={user.societies}/>
       </Container>
     </Layout>
