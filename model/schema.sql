@@ -278,6 +278,9 @@ VALUES ('103296335140967313495', 1, 'Head');
 INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
 VALUES ('103296335140967313495', 2, 'Member');
 
+INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
+VALUES ('108417720736449487580', 2, 'Head');
+
 INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `startTime`, `endTime`, `image`, `User_id`, `Society_id`)
 VALUES (1, 'app creation', '2021-12-01 00:00:00', '2021-12-15 10:00:00', 'https://cdn.pixabay.com/photo/2017/11/14/13/06/kitty-2948404__340.jpg', '103296335140967313495', 1);
 
