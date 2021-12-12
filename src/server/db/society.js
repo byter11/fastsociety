@@ -38,7 +38,7 @@ const getMembers = (societyId, cb) => {
 		r.name AS roleName
 		FROM User u
 		JOIN Registration reg ON u.id = reg.User_id
-		JOIN Role r ON r.name = reg.Role_name
+		JOIN Role r ON r.name = reg.Role_name AND r.Society_id = reg.Society_id
 		WHERE reg.Society_id = ?`,
 		[societyId],
 		(error, results=[], fields) => {
