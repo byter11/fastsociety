@@ -6,14 +6,10 @@ import Link from 'next/link';
 const AddEventBox = ({eventId}) => {
     const {user, token} = useFetchUser();
     const [showModal, setShowModal] = useState(false);
-    const [postData, setPostData] = useState({
-      
-    });
+    const [postData, setPostData] = useState({});
 
     const handleChange = e => {
         const {name, value, files} = e.target;
-
-        
         setPostData((e) => ({...e, [name]: files? files[0] : value}));
         console.log(postData);
     }
@@ -58,9 +54,7 @@ const AddEventBox = ({eventId}) => {
         <Modal.Body>
             {/* <Form onSubmit={postEvent}> */}
                 <div className="d-flex flex-wrap align-items-center">
-                    <Link href={`/profile/${user.id}`}>
-                        <Image className="m-2" src={user.image || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='} roundedCircle height={40} width={40} />
-                    </Link>
+                    <Image className="m-2" src={user.image || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='} roundedCircle height={40} width={40} />
                     <b>{user.name}</b>
                 </div>
                 
@@ -78,7 +72,6 @@ const AddEventBox = ({eventId}) => {
                 <Button onClick={postUpdate} style={{width: '100%'}} className="my-1" variant="primary" type="submit">
                         Post
                 </Button>
-            {/* </Form> */}
         </Modal.Body>
     </Modal>
     </>

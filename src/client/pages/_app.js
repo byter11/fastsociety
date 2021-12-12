@@ -5,9 +5,9 @@ import '../custom.css'
 import Head from "next/head";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHourglassStart, faHourglassEnd, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faHourglassStart, faHourglassEnd, faStar, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faStar, faHourglassEnd, faHourglassStart)
+library.add(faStar, faHourglassEnd, faHourglassStart, faPaperPlane)
 config.autoAddCss = false
 
 function App({ Component, pageProps }) {
