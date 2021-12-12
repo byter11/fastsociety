@@ -76,11 +76,11 @@ const Society = () => {
           </Modal.Header>
           <Modal.Body>
             <Container>
-              <Card>
+              {/* <Card> */}
                 <Row className="justify-content-start">
-                  <Col>Add Member</Col>
+                  {/* <Col>Add Member</Col> */}
                 </Row>
-              </Card>
+              {/* </Card> */}
               <Card>
                 {membersModal.members.map((member, i) => (
                   <Row key={i}>

@@ -22,11 +22,11 @@ const getOne = ({where}, cb) => {
 		`SELECT u.name, u.email, u.image
 		FROM User u
 		${conditions ? 'WHERE ' + conditions : ''};
-		SELECT s.id, s.title, s.image, r.id AS roleId, r.name, r.createPost, r.createEvent
+		SELECT s.id, s.title, s.image, r.name, r.createPost, r.createEvent
 		FROM Registration reg
 		LEFT JOIN User u ON u.id = reg.User_id
 		LEFT JOIN Society s ON s.id = reg.Society_id
-		LEFT JOIN Role r ON r.id = reg.Role_id
+		LEFT JOIN Role r ON r.name = reg.Role_name
 		${conditions ? 'WHERE ' + conditions : ''}`,
 		[...values, ...values],
 		(error, results=[], fields) => {
