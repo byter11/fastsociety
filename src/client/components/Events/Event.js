@@ -8,12 +8,8 @@ const Event = ({ data, showRatingModal=()=>{}, controls=true}) => {
     const { id, textContent, createdOn, startTime, endTime, image, rating, userRating, User_id, society } = data;
     
     const handleComment = () => {
-
+        
     }
-
-    // const handleShare = () => {
-
-    // }
 
     const handleRate = (id, userRating) => {
         
@@ -72,7 +68,6 @@ const Event = ({ data, showRatingModal=()=>{}, controls=true}) => {
                         {/* <Button href="#rating" onClick={()=>showRatingModal(id, userRating)} variant="light">Rate</Button> */}
                         <Button href="#rating" onClick={() => handleRate(id, userRating)} variant="light">Rate</Button>
                         <Button onClick={handleComment} variant="light">Comment</Button>
-                        {/* <Button onClick={handleShare} variant="light">Share</Button> */}
                     </div>
                 </Row>
                 }
