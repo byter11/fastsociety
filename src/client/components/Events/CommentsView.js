@@ -19,14 +19,14 @@ const CommentsView = ({ eventId }) => {
           return;
         }
         setComments((comments) => [...comments, ...newComments]);
+        console.log(newComments);
       });
   };
 
   useEffect(() => {
-    const scrollBarExists =
-      document.body.scrollHeight > document.body.clientHeight;
-    if (!scrollBarExists) fetchComments();
+    fetchComments();
   }, []);
+
 
   return (
     <>
@@ -35,7 +35,8 @@ const CommentsView = ({ eventId }) => {
       
         } */}
         {comments.map((comment, index) => (
-          <Comment data={comment} key={index} />
+          // <Comment data={comment} key={index} />
+          <></>
         ))}
         {hasMore && (
           <div className="text-center">

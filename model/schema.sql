@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `fastsociety`.`Registration` (
   `Role_name` VARCHAR(45) NULL,
   `joinDate` DATE NULL DEFAULT (CURRENT_DATE),
   PRIMARY KEY (`User_id`, `Society_id`),
-  INDEX `fk_Registration_Role1_idx` (`Role_id` ASC) VISIBLE,
+  INDEX `fk_Registration_Role1_idx` (`Role_name` ASC) VISIBLE,
   INDEX `fk_Registration_User1_idx` (`User_id` ASC) VISIBLE,
   INDEX `fk_Registration_Society1_idx` (`Society_id` ASC) VISIBLE,
   CONSTRAINT `fk_Registration_Role1`
