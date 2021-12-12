@@ -6,12 +6,19 @@ import { faStar, faHourglassStart, faHourglassEnd } from '@fortawesome/free-soli
 
 const Event = ({ data, showRatingModal=()=>{}, controls=true}) => {
     const { id, textContent, createdOn, startTime, endTime, image, rating, userRating, User_id, society } = data;
+    
     const handleComment = () => {
 
     }
 
-    const handleShare = () => {
+    // const handleShare = () => {
 
+    // }
+
+    const handleRate = (id, userRating) => {
+        
+        console.log(id, userRating);
+        showRatingModal(id, userRating);
     }
 
     return <>
@@ -55,16 +62,17 @@ const Event = ({ data, showRatingModal=()=>{}, controls=true}) => {
                     <Row className="px-2"><p>{textContent}</p></Row>
                     <Row>
                         <Col className="text-center">
-                        <Image fluid rounded className="p-2" src={image}></Image>
+                        <Image fluid className="p-2" src={image}></Image>
                         </Col>
                     </Row></span>
                 </Link>
                 {controls &&
                 <Row>
                     <div className="btn-group">
-                        <Button href="#rating" onClick={()=>showRatingModal(id, userRating)} variant="light">Rate</Button>
+                        {/* <Button href="#rating" onClick={()=>showRatingModal(id, userRating)} variant="light">Rate</Button> */}
+                        <Button href="#rating" onClick={() => handleRate(id, userRating)} variant="light">Rate</Button>
                         <Button onClick={handleComment} variant="light">Comment</Button>
-                        <Button onClick={handleShare} variant="light">Share</Button>
+                        {/* <Button onClick={handleShare} variant="light">Share</Button> */}
                     </div>
                 </Row>
                 }
