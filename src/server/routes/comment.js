@@ -3,9 +3,6 @@ const Comment = require('../db/comment');
 const { verify } = require('../services/jwt');
 
 router.get('/', verify, (req, res) => {
-    console.log(req.params);
-    // if (!req.body.user)
-        // return res.status(200).send([]);
     const userId = (req.body.user || {}).id || '';
     const count = +req.query.count || 2;
     const offset = +req.query.offset || 0;
@@ -13,7 +10,7 @@ router.get('/', verify, (req, res) => {
     if (!eventId)
         return res.sendStatus(400)
 
-    console.log(count, offset, eventId);
+    // console.log(count, offset, eventId);
 
     Comment.getMultiple({ where: { Event_id: [eventId] }, offset: offset, limit: count, user: userId },
         (errors, results) => {
@@ -25,13 +22,15 @@ router.get('/', verify, (req, res) => {
 })
 
 router.post('/', verify, (req, res) => {
-    // console.log(req.body);
+    console.log("body is",req.params);
     if (!req.body.user)
         return res.status(401).send();
+    
+    const id = req.body.user.id;
+    const text = req.body.textContent;
 
     Comment.insert({
-        User_id: req.body.user.id,
-        ...req.body
+        User_id: id, textContent: text, Event_id: req.params.eventId
     }, (error) => {
         if (error)
             return res.status(500).send(error);

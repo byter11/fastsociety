@@ -11,7 +11,7 @@ const Profile = () => {
 		
 	useEffect(()=> {
 		if (!router.isReady) return;
-		const { username } = router.query;		
+		const { username } = router.query;	
 		fetch(`/api/user/${username}`, {
 			method: 'GET',
 			headers: {

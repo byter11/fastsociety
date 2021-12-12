@@ -21,7 +21,7 @@ const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
 	limit = 10;
     const {conditions, values} = buildConditions(where, 'c.');
 	db.query({
-		sql: `SELECT c.id commentId, c.textContent, u.id userId, c.createdOn, u.image, u.name
+		sql: `SELECT c.id commentId, c.textContent, u.id userId, c.createdOn, u.image, u.name, u.email
           FROM Comment c
           LEFT JOIN User u ON u.id = c.User_id
 		      ${conditions ? 'WHERE ' + conditions : ''}

@@ -5,7 +5,7 @@ import { Row, Col, Card } from "react-bootstrap";
 const SocietyView = ({societies}) => {
     return (
       <div style={{
-        overflowX: 'scroll',
+        overflowX: 'auto',
         overflowY: 'hidden',
         whiteSpace: 'nowrap'
       }}>

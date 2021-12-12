@@ -1,4 +1,7 @@
+TODO:
 
--> null[] from the server when clicking an event
+-> make image in comment to link
 
-TODO: Form validation (events/AddEventBox, posts/PostEventBox, AddMemberForm)
+-> Form validation (events/AddEventBox, posts/PostEventBox, AddMemberForm)
+
+-> 
