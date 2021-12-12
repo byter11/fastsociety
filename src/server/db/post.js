@@ -3,14 +3,14 @@ const { buildConditions } = require('../utils');
 
 
 const insert = (values, cb) => {
-  const { textContent, createdOn, image, User_id, Event_id } = values;
+  const { textContent, image, User_id, Event_id } = values;
 
   db.query(
     {
       sql: `INSERT INTO Post
-		(textContent, createdOn, image, User_id, Event_id)
-		VALUES (?, ?, ?, ?, ?)`,
-      values: [textContent, createdOn, image, User_id, Event_id],
+		(textContent, image, User_id, Event_id)
+		VALUES (?, ?, ?, ?)`,
+      values: [textContent, image, User_id, Event_id],
     },
     (error) => {
       cb(error);
@@ -23,12 +23,12 @@ const insert = (values, cb) => {
 const getMultiple = ({where={}, limit=10, offset=0}, cb) => {
     const {conditions, values} = buildConditions(where);
 	db.query({
-		sql: `SELECT p.id, p.textContent, p.createdOn, p.image,
+		sql: `SELECT p.id, p.textContent, p.p.image,
 		u.id, u.name, u.image
 		FROM Post p
 		LEFT JOIN User u ON u.id = p.User_id
 		${conditions ? 'WHERE ' + conditions : ''}
-        ORDER BY createdOn desc
+        ORDER BY esc
         LIMIT ?, ?`,
 		nestTables: true, 
 		values: [...values, offset, limit],
