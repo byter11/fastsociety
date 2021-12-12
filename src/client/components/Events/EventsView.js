@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFetchUser } from '../../hooks/user';
 import { useState, useEffect } from "react";
-import { Modal, Container, Row, Col, Spinner, Button} from 'react-bootstrap';
+import { Modal, Container, Row, Col, FloatingLabel, Form, Button} from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Skeleton from 'react-loading-skeleton';
 import Event from './Event';
@@ -34,62 +34,81 @@ const EventsView = ({societies = []}) => {
             fetchEvents();
     }, []);    
 
-    return <>
-    <InfiniteScroll
-            dataLength={events.length}
-            next={fetchEvents}
-            hasMore={hasMore}
-            loader={<Skeleton count={10}/>}
-            endMessage={
-                <p className="text-muted" style={{ textAlign: "center" }}>
-                    End of stream
-                </p>
-            }
-            style={{
-                maxWidth: 800,
-                overflowX: 'hidden',
-                margin: 'auto'
-            }}
-            initialScrollY={1}
+    return (
+      <>
+        <InfiniteScroll
+          dataLength={events.length}
+          next={fetchEvents}
+          hasMore={hasMore}
+          loader={<Skeleton count={10} />}
+          endMessage={
+            <p className="text-muted" style={{ textAlign: "center" }}>
+              End of stream
+            </p>
+          }
+          style={{
+            maxWidth: 800,
+            overflowX: "hidden",
+            margin: "auto",
+          }}
+          initialScrollY={1}
         >
-        {events.map((e, index) => (
-            <Event 
-                data={e} 
-                key={index} 
-                showRatingModal={(eventId, userRating)=>
-                    setRatingModal({
-                        show: true, 
-                        event: {index, eventId , userRating}
-                    })
-                }/>
-        ))}
-        {hasMore && <div  className="text-center"><Button variant="light" onClick={fetchEvents}>Load More</Button></div>}
+          {events.map((e, index) => (
+            <Event
+              data={e}
+              key={index}
+              showRatingModal={(eventId, userRating) =>
+                setRatingModal({
+                  show: true,
+                  event: { index, eventId, userRating },
+                })
+              }
+            />
+            // <PostsView />
+          ))}
+          {hasMore && (
+            <div className="text-center">
+              <Button variant="light" onClick={fetchEvents}>
+                Load More
+              </Button>
+            </div>
+          )}
         </InfiniteScroll>
-        
+
         {/* Single stateful modal to avoid large html size */}
-        {user &&
-        <Modal show={ratingModal.show} onHide={()=>setRatingModal({show: false, event: {}})}>
-                <Modal.Header className="p-2" style={{border: 'none'}} closeButton/>
-                <Modal.Body>
-                    <Container>
-                        <Row className="justify-content-start">
-                            <RatingButtons 
-                                event={ratingModal.event}
-                                setUserRating={(i)=>setRatingModal((old)=>{
-                                    old.event.userRating = i;
-                                    setEvents((events) => {
-                                        events[old.event.index].userRating = i;
-                                        return events;
-                                    });
-                                    return old;
-                                })}
-                                />
-                        </Row>
-                    </Container>
-                </Modal.Body>
-        </Modal>
-        }
-    </>
+        {user && (
+          <Modal
+            show={ratingModal.show}
+            onHide={() => setRatingModal({ show: false, event: {} })}
+          >
+            <Modal.Header
+              className="p-2"
+              style={{ border: "none" }}
+              closeButton
+            />
+            <Modal.Body>
+              <Container>
+                <Row className="justify-content-start">
+                  <RatingButtons
+                    event={ratingModal.event}
+                    setUserRating={(i) =>
+                      setRatingModal((old) => {
+                        old.event.userRating = i;
+                        setEvents((events) => {
+                          events[old.event.index].userRating = i;
+                          return events;
+                        });
+                        return old;
+                      })
+                    }
+                  />
+                </Row>
+              </Container>
+            </Modal.Body>
+          </Modal>
+        )}
+      </>
+    );
     
 }
 

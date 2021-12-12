@@ -4,6 +4,7 @@ import { useFetchUser } from '../../hooks/user';
 import Layout from '../../components/Layout';
 import Event from '../../components/Events/Event';
 import PostsView from '../../components/Posts/PostsView';
+import CommentsView from '../../components/Events/CommentsView';
 
 const EventPage = () => {
     const router = useRouter();
@@ -31,6 +32,7 @@ const EventPage = () => {
             <Event data={event} controls={false}/>
             <hr/>
             <h2 className='text-center text-muted'>Updates</h2>
+            <CommentsView eventId={event.id} />
             <PostsView eventId={event.id}/>
             </>
         }

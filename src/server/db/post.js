@@ -23,17 +23,16 @@ const insert = (values, cb) => {
 const getMultiple = ({where={}, limit=10, offset=0}, cb) => {
     const {conditions, values} = buildConditions(where);
 	db.query({
-		sql: `SELECT p.id, p.textContent, p.p.image,
+		sql: `SELECT p.id, p.textContent, p.image,
 		u.id, u.name, u.image
 		FROM Post p
 		LEFT JOIN User u ON u.id = p.User_id
 		${conditions ? 'WHERE ' + conditions : ''}
-        ORDER BY esc
+        ORDER BY createdOn desc
         LIMIT ?, ?`,
 		nestTables: true, 
 		values: [...values, offset, limit],
 	},(error, results, fields) => {
-            console.log(error, results);
 			if (error) cb(error);
 			const data = results.map(obj => {
 				delete obj.p.User_id;
