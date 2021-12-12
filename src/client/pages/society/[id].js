@@ -27,7 +27,16 @@ const Society = () => {
             headers: {'Content-Type': 'application/json'}
         })
         .then(res => res.json())
-        .then(results => setMembersModal({show: false, members: results}));
+        .then(results => {
+          const roles = [...new Set(results.map(r => r.roleName))];
+          const members = roles.map(r => [
+            r, 
+            results.filter(m => m.roleName = r)
+          ]
+          );
+            console.log(members);
+          setMembersModal({show: false, members: members})
+        });
     }, [router.isReady]);
 
     
@@ -70,6 +79,7 @@ const Society = () => {
         <Modal
           show={membersModal.show}
           onHide={() => setMembersModal({ ...membersModal, show: false })}
+          style={{opacity: "98%"}}
         >
           <Modal.Header className="p-2" style={{ border: "none" }} closeButton>
             Members
@@ -81,15 +91,24 @@ const Society = () => {
                   {/* <Col>Add Member</Col> */}
                 </Row>
               {/* </Card> */}
-              <Card>
-                {membersModal.members.map((member, i) => (
-                  <Row key={i}>
-                    <Col>{member.name}</Col>
-                    <Col>{member.roleName}</Col>
-                    {/* <Col>member.societies[society.id].role</Col> */}
-                  </Row>
+              {/* <Card> */}
+                {membersModal.members.map(([role, roleMembers], i) => (
+                  <details className="p-2" key={i} open>
+                    <summary className="heading text-muted">{role.toUpperCase()}</summary>
+                  {/* <Row>
+                    <Col className="heading text-muted">{role.toUpperCase()}</Col>
+                  </Row> */}
+                  {roleMembers.map((m,j) => 
+                      <Row key={j}>
+                        <div className="d-flex m-2">
+                          <Image className="mx-2" width={25} height={25} src={m.image} roundedCircle/>
+                          <b>{m.name}</b>
+                        </div>
+                      </Row>
+                  )}
+                  </details>
                 ))}
-              </Card>
+              {/* </Card> */}
             </Container>
           </Modal.Body>
         </Modal>

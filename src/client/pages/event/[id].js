@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 import Event from '../../components/Events/Event';
 import PostsView from '../../components/Posts/PostsView';
 import CommentsView from '../../components/Events/CommentsView';
+import AddPostBox from '../../components/Posts/AddPostBox';
 
 const EventPage = () => {
     const router = useRouter();
@@ -30,9 +31,10 @@ const EventPage = () => {
         {
             event && <>
             <Event data={event} controls={false}/>
+            <CommentsView eventId={event.id} />
             <hr/>
             <h2 className='text-center text-muted'>Updates</h2>
-            <CommentsView eventId={event.id} />
+            <AddPostBox eventId={event.id}/>
             <PostsView eventId={event.id}/>
             </>
         }
