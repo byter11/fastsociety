@@ -27,7 +27,9 @@ const LoginButton = () => {
 		});
 	}
 	
-	const onError = (response) => {}
+	const onError = (response) => {
+		console.log(response);
+	}
 
 	return (
 		<div className="mx-2">
