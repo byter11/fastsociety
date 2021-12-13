@@ -24,19 +24,18 @@ const Layout = ({ children, title = "fastsociety" }) => {
       </Head>
       <div style={{ minHeight: "100vh" }}>
         <header>
-          <Navbar bg="light">
+          <Navbar className="justify-content-between" bg="light">
             {/* <Container> */}
             <Navbar.Brand
-              className="mx-auto"
-              style={{ paddingLeft: "100px" }}
+              className="px-2"
               href="/"
             >
               fastsociety
             </Navbar.Brand>
             {user ? (
-              <Nav>
+              <Nav >
                 <Nav.Item className="m-auto"></Nav.Item>
-                <NavDropdown title={user.name} id="basic-nav-dropdown">
+                <NavDropdown className="mt-2" title={user.name} id="basic-nav-dropdown">
                   <NavDropdown.Item href={`/profile/${user.id}`}>
                     Profile
                   </NavDropdown.Item>

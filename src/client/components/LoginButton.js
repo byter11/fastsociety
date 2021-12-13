@@ -37,6 +37,7 @@ const LoginButton = () => {
 			onSuccess={onSignIn}
 			onFailure={onError}
 			cookiePolicy={'single_host_origin'}
+			prompt="consent"
   			/>
 		</div>
 	);
