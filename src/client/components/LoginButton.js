@@ -1,3 +1,5 @@
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
 import GoogleLogin from 'react-google-login';
 import Cookie from 'js-cookie';
 import Router from 'next/router';
@@ -30,11 +32,11 @@ const LoginButton = () => {
 	const onError = (response) => {
 		console.log(response);
 	}
-
+	
 	return (
 		<div className="mx-2">
 			<GoogleLogin
-			clientId="623112692123-qme5o65dd50rsetvqp006ulrcva3t68k.apps.googleusercontent.com"
+			clientId={publicRuntimeConfig.clientId}
 			buttonText="Login"
 			onSuccess={onSignIn}
 			onFailure={onError}
