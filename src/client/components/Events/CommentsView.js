@@ -10,9 +10,12 @@ const CommentsView = ({ eventId }) => {
   const [hasMore, setHasMore] = useState(true);
   const [commentData, setCommentData] = useState({});
   const {user, token} = useFetchUser();
+  const [resetComments, setResetComments] = useState(false);
 
-  const fetchComments = () => {
-    fetch(`/api/event/${eventId}/comment?offset=${comments.length || 0}`, {
+
+  const fetchComments = (length) => {
+    console.log('fetching')
+    fetch(`/api/event/${eventId}/comment?offset=${comments.length}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
@@ -26,12 +29,20 @@ const CommentsView = ({ eventId }) => {
       });
   };
 
-  const postComment = () => {
+  const postComment = (e) => {
+    e.target.reset();
+    e.preventDefault();
     fetch(`/api/event/${eventId}/comment`, {
       method: "POST",
       headers: {'Content-Type': 'application/json', token: token},
       body: JSON.stringify(commentData),
-    }).then((res) => console.log(res));
+    })
+    .then(res => res.json())
+    .then(result => {
+      setComments(c => [result, ...c])
+      console.log(result)
+    })
+
   }
   
   const handleChange = (e) => {
@@ -40,7 +51,8 @@ const CommentsView = ({ eventId }) => {
   };
 
   useEffect(() => {
-    fetchComments();
+    // if(comments.length == 0)
+      fetchComments();
   }, []);
 
 
@@ -66,26 +78,24 @@ const CommentsView = ({ eventId }) => {
               width={40}
             />
           </Link>
-
+          <form onSubmit={postComment} className="d-flex flex-fill flex-wrap">
           <input 
+            autoComplete="off"
             className="p-2 m-2 flex-fill d-flex bg-light rounded-pill border hover" placeholder="Say something..."
               style={ { outline: 'none'} } onChange={handleChange} name="textContent"
           />
-
-          <div className="m-auto">
+          <button type="submit  " className="m-auto border-0 bg-transparent">
             <FontAwesomeIcon
               icon="paper-plane"
-              onClick={postComment}
               size="2x"
               className="ratingStarButton"
               color="silver"
             />
-          </div>
+          </button>
+          </form>  
         </div>
         {comments.map((comment, index) => (
-          <>
             <Comment data={comment} key={index} />
-          </>
         ))}
         {hasMore && (
           <div className="text-center">

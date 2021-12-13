@@ -31,7 +31,7 @@ const Society = () => {
           const roles = [...new Set(results.map(r => r.roleName))];
           const members = roles.map(r => [
             r, 
-            results.filter(m => m.roleName = r)
+            results.filter(m => m.roleName == r)
           ]
           );
             console.log(members);

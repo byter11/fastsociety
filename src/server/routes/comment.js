@@ -31,10 +31,10 @@ router.post('/', verify, (req, res) => {
 
     Comment.insert({
         User_id: id, textContent: text, Event_id: req.params.eventId
-    }, (error) => {
+    }, (error, results) => {
         if (error)
             return res.status(500).send(error);
-        return res.sendStatus(200);
+        return res.status(200).send(results);
     });
 })
 

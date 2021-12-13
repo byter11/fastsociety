@@ -35,7 +35,7 @@ const Layout = ({ children, title = "fastsociety" }) => {
             </Navbar.Brand>
             {user ? (
               <Nav>
-                <Nav.Item class="m-auto"></Nav.Item>
+                <Nav.Item className="m-auto"></Nav.Item>
                 <NavDropdown title={user.name} id="basic-nav-dropdown">
                   <NavDropdown.Item href={`/profile/${user.id}`}>
                     Profile

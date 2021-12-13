@@ -10,9 +10,9 @@ const Comment = ({ data }) => {
   const username = email.substring(0, 7);
 
   return (
-    <Container fluid className="mt-2 mb-2 p-1">
+    <Container fluid className="mt-2 mx-2 mb-2 p-1">
       <Row>
-        <Col style={{ cursor: "pointer", display:'flex', justifyContent:'flex-end' }} xs={2}>
+        <Col style={{ cursor: "pointer", display:'flex', justifyContent:'flex-end' }} xs={1}>
         <Link href={`/profile/${username}`}>
           <Image
             className="m-1"

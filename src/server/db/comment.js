@@ -11,15 +11,17 @@ const insert = (values, cb) => {
 		VALUES (?, ?, ?)`,
       values: [textContent, User_id, Event_id],
     },
-    (error) => {
-      cb(error);
+    (error, insertion) => {
+      getMultiple({where:{id: insertion.insertId}, limit:1}, (err, results) => {
+        cb(error, results[0]);
+      })
+      
     }
   );
 };
 
-const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
-	limit = 10;
-    const {conditions, values} = buildConditions(where, 'c.');
+const getMultiple = ({where={}, limit=2, offset=0, user=''}, cb) => {
+  const {conditions, values} = buildConditions(where, 'c.');
 	db.query({
 		sql: `SELECT c.id commentId, c.textContent, u.id userId, c.createdOn, u.image, u.name, u.email
           FROM Comment c
@@ -29,7 +31,7 @@ const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
           LIMIT ?, ?`, 
 		values: [...values, offset, limit],
 	},(error, results, fields) => {
-      console.log('db/comment.js: ', error, results);
+      // console.log('db/comment.js: ', error, results);
 			if (error) cb(error);
 
 			cb(error, results, fields);
