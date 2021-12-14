@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import ReactPlayer from 'react-player'
 import {
   Card,
   Container,
@@ -42,22 +43,20 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
     <>
       <Card className="m-2 shadow">
         <Container fluid>
-          <Row><Col>
-            <div className="d-flex flex-wrap justify-content-between m-1">
+          <Row className="justify-content-between m-1">
             {startTime && (
-              <span className="m-auto">
-                <FontAwesomeIcon icon={faHourglassStart} className="" style={{justifySelf: 'center'}} />
+              <Col>
+                <FontAwesomeIcon icon={faHourglassStart} className="mx-2" />
                 {new Date(startTime).toLocaleString()}
-              </span>
+              </Col>
             )}
             {endTime && (
-              <span className="m-auto">
-                <FontAwesomeIcon icon={faHourglassEnd} className="" style={{justifySelf: 'center'}} />
+              <Col className="text-end">
+                <FontAwesomeIcon icon={faHourglassEnd} className="mx-2" />
                 {new Date(endTime).toLocaleString()}
-              </span>
+              </Col>
             )}
-            </div>
-          </Col></Row>
+          </Row>
           <Row className="justify-content-between">
             <Col style={{ cursor: "pointer" }} xs={8}>
               <Link href={`/society/${society.id}`}>
@@ -91,7 +90,8 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
               </Row>
               <Row>
                 <Col className="text-center">
-                  <Image fluid className="p-2" src={image}></Image>
+                {image.endsWith('jpg') || image.endsWith('png') || image.endsWith('jpeg') ? <Image fluid className="p-2" src={image}></Image>
+                    : <ReactPlayer fluid className="p-2" controls width='' height='' url={image}/>}
                 </Col>
               </Row>
             </span>
