@@ -11,13 +11,11 @@ const Post = ({ data }) => {
         <Card className="m-2 shadow-sm">
             <Container fluid>
                 <Row className="justify-content-between">
-                    <Col style={{cursor:'pointer'}} xs={8}>
+                    <Col style={{cursor:'pointer'}}>
                         <Link href={`/user/${user.id}`}>
                             <span><Image className="m-2" src={user.image} roundedCircle height={40} width={40} />
                                 <b>{user.name}</b></span>
                         </Link>
-                        <span> added a </span>
-                        <b>Post</b>
                     </Col>
                 </Row>
                 <Row className="px-2"><p>{textContent}</p></Row>

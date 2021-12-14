@@ -73,10 +73,6 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
                   <b>{society.title || "[deleted]"}</b>
                 </span>
               </Link>
-              <span> added an </span>
-              <Link href={`/event/${id}`}>
-                <b>Event</b>
-              </Link>
             </Col>
             <Col className="text-end align-self-center mx-2">
               <FontAwesomeIcon

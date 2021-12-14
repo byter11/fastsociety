@@ -10,12 +10,11 @@ const Comment = ({ data }) => {
   const username = email.substring(0, 7);
 
   return (
-    <Container fluid className="mt-2 mx-2 mb-2 p-1">
+    <Container fluid className="my-2 mx-2">
       <Row>
-        <Col style={{ cursor: "pointer", display:'flex', justifyContent:'flex-end' }} xs={1}>
+        <Col style={{ cursor: "pointer", display:'flex', justifyContent:'flex-end' }} className="col-auto">
         <Link href={`/profile/${username}`}>
           <Image
-            className="m-1"
             src={image}
             roundedCircle
             height={40}
@@ -25,9 +24,12 @@ const Comment = ({ data }) => {
         </Col>
         <Col >
           <Row>
+            <div className="d-flex flex-wrap">
             <span>
-              <b>{name}</b>   {date}
+              <b>{name}</b>
             </span>
+            <span className="text-sm text-muted px-1">{date}</span>
+            </div>
           </Row>
           <Row><span>{textContent}</span></Row>
         </Col>

@@ -58,9 +58,9 @@ const CommentsView = ({ eventId }) => {
 
   return (
     <>
-      <Container>
+      <Container><Row><Col>
         <div
-          className="d-flex flex-wrap m-auto"
+          className="d-flex m-auto"
           style={{
             cursor: "pointer",
             maxWidth: 768,
@@ -78,22 +78,26 @@ const CommentsView = ({ eventId }) => {
               width={40}
             />
           </Link>
-          <form onSubmit={postComment} className="d-flex flex-fill flex-wrap">
+          <form onSubmit={postComment} className="d-flex flex-fill">
           <input 
             autoComplete="off"
-            className="p-2 m-2 flex-fill d-flex bg-light rounded-pill border hover" placeholder="Say something..."
-              style={ { outline: 'none'} } onChange={handleChange} name="textContent"
+            className="flex-fill bg-light rounded-pill border hover" 
+            placeholder="Say something..."
+            style={ { outline: 'none', margin: '5px 0px 5px 5px', padding: '0 5px'} } 
+            onChange={handleChange} 
+            name="textContent"
           />
           <button type="submit  " className="m-auto border-0 bg-transparent">
             <FontAwesomeIcon
               icon="paper-plane"
               size="2x"
-              className="ratingStarButton"
+              className="ratingStarButton p-1"
               color="silver"
             />
           </button>
           </form>  
-        </div>
+        </div></Col></Row>
+        <Row><Col>
         {comments.map((comment, index) => (
             <Comment data={comment} key={index} />
         ))}
@@ -104,6 +108,7 @@ const CommentsView = ({ eventId }) => {
             </Button>
           </div>
         )}
+        </Col></Row>
       </Container>
     </>
   );
