@@ -4,7 +4,7 @@ import Head from 'next/head'
 import LoginButton from './LoginButton';
 import { useFetchUser } from '../hooks/user';
 import Router from 'next/router';
-import { Container, Row, Navbar, Nav, Image,NavDropdown, Button } from 'react-bootstrap';
+import { Container, Row, Navbar, Nav, Image, NavDropdown, Button } from 'react-bootstrap';
 
 const Layout = ({ children, title = "fastsociety" }) => {
   const { user, loading } = useFetchUser({ required: false });
@@ -30,21 +30,18 @@ const Layout = ({ children, title = "fastsociety" }) => {
               className="px-2"
               href="/"
             >
-                <div className='d-flex'>
-                <Nav.Link href={`/`}>
-                
-                <Image 
+              <div className='d-flex'>
+                  <Image
                     src={`/logo.png`}
                     roundedCircle
                     fluid
                     width="40"
                     style={{ backgroundColor: "none" }}
                     height="40"
-                />
-                </Nav.Link>
+                  />
                 <span className='m-auto'>
-                fastsociety
-              </span>
+                  fastsociety
+                </span>
               </div>
             </Navbar.Brand>
             {user ? (
@@ -66,7 +63,7 @@ const Layout = ({ children, title = "fastsociety" }) => {
                 <Nav.Item className="m-auto"></Nav.Item>
                 <Nav.Item>
                   <Nav.Link href={`/profile/${user.id}`}>
-                    <Image 
+                    <Image
                       src={user.image}
                       roundedCircle
                       fluid
@@ -87,7 +84,7 @@ const Layout = ({ children, title = "fastsociety" }) => {
         {children}
 
         <footer className="small">
-        <div>Logo by <a href="https://www.flaticon.com/authors/darius-dan" title="Darius Dan">Darius Dan</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+          <div>Logo by <a href="https://www.mukesh.com" title="Mukesh Kumar">Mukes Kumar</a></div>
         </footer>
       </div>
     </div>

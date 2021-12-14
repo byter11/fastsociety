@@ -42,20 +42,22 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
     <>
       <Card className="m-2 shadow">
         <Container fluid>
-          <Row className="justify-content-between m-1">
+          <Row><Col>
+            <div className="d-flex flex-wrap justify-content-between m-1">
             {startTime && (
-              <Col>
-                <FontAwesomeIcon icon={faHourglassStart} className="mx-2" />
+              <span className="m-auto">
+                <FontAwesomeIcon icon={faHourglassStart} className="" style={{justifySelf: 'center'}} />
                 {new Date(startTime).toLocaleString()}
-              </Col>
+              </span>
             )}
             {endTime && (
-              <Col className="text-end">
-                <FontAwesomeIcon icon={faHourglassEnd} className="mx-2" />
+              <span className="m-auto">
+                <FontAwesomeIcon icon={faHourglassEnd} className="" style={{justifySelf: 'center'}} />
                 {new Date(endTime).toLocaleString()}
-              </Col>
+              </span>
             )}
-          </Row>
+            </div>
+          </Col></Row>
           <Row className="justify-content-between">
             <Col style={{ cursor: "pointer" }} xs={8}>
               <Link href={`/society/${society.id}`}>
