@@ -257,6 +257,10 @@ VALUES ('103296335140967313495', 'Mohsin Shaikh', 'k191308@nu.edu.pk', 'https://
 INSERT INTO `fastsociety`.`User` (`id`, `name`, `email`, `image`)
 VALUES ('108417720736449487580', 'k19 0274', 'k190274@nu.edu.pk', 'https://lh3.googleusercontent.com/a-/AOh14GjkUH94ACxo9bR9bPEljz1FrfFFA97xqrWL-OQnYQ=s96-c');
 
+INSERT INTO `fastsociety`.`User` (`id`, `name`, `email`, `image`)
+VALUES ('118074802032372663340', 'Mukesh Kumar', 'k190251@nu.edu.pk', 'https://lh3.googleusercontent.com/a-/AOh14Gi3acSXWVeVafz5Lh-J2XAk0CfFctXTTOUbhF5Y=s96-c');
+
+
 INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
 VALUES (1, 'app', 'fastsociety', 'https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554__340.jpg', '103296335140967313495');
 
@@ -280,6 +284,11 @@ VALUES ('103296335140967313495', 1, 'Head');
 
 INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
 VALUES ('103296335140967313495', 2, 'Member');
+
+INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
+VALUES ('118074802032372663340', 1, 'Head');
+
+
 
 INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
 VALUES ('108417720736449487580', 2, 'Head');
