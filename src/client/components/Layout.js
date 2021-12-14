@@ -84,7 +84,7 @@ const Layout = ({ children, title = "fastsociety" }) => {
         {children}
 
         <footer className="small">
-          <div>Logo by <a href="https://www.mukesh.com" title="Mukesh Kumar">Mukes Kumar</a></div>
+          <div>Logo by <a href="https://www.mukesh.com" title="Mukesh Kumar">Mukesh Kumar</a></div>
         </footer>
       </div>
     </div>
