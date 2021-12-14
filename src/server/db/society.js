@@ -24,10 +24,18 @@ const getOne = ({where, value}, cb) => {
 	db.query(
 		`SELECT id, title, description, email, totalFollows, image
 		FROM Society
-		${conditions ? 'WHERE ' + conditions : ''}`,
-		values,
+		${conditions ? 'WHERE ' + conditions : ''};
+		SELECT name, createEvent, deleteEvent, createPost, deletePost
+		FROM Role
+		WHERE Society_id = (SELECT id FROM Society ${conditions ? 'WHERE ' + conditions : ''})
+		`,
+		[...values, ...values],
 		(error, results=[], fields) => {
-			cb(error, results[0], fields)
+			if(error) return cb(error);
+			const society = results[0][0];
+			society.roles = results[1];
+			
+			cb(error, society, fields)
 		}
 	);
 }
