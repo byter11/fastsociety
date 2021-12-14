@@ -32,17 +32,18 @@ const Layout = ({ children, title = "fastsociety" }) => {
             >
                 <div className='d-flex'>
                 <Nav.Link href={`/`}>
+                
                 <Image 
                     src={`/logo.png`}
                     roundedCircle
                     fluid
-                    width="50"
+                    width="40"
                     style={{ backgroundColor: "none" }}
-                    height="50"
+                    height="40"
                 />
                 </Nav.Link>
                 <span className='m-auto'>
-                Fast Society
+                fastsociety
               </span>
               </div>
             </Navbar.Brand>
@@ -85,7 +86,9 @@ const Layout = ({ children, title = "fastsociety" }) => {
 
         {children}
 
-        {/* <footer style={{bottom: 0, position: 'absolute'}}>{'yo'}</footer> */}
+        <footer className="small">
+        <div>Logo by <a href="https://www.flaticon.com/authors/darius-dan" title="Darius Dan">Darius Dan</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+        </footer>
       </div>
     </div>
   );
