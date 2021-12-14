@@ -30,7 +30,21 @@ const Layout = ({ children, title = "fastsociety" }) => {
               className="px-2"
               href="/"
             >
-              fastsociety
+                <div className='d-flex'>
+                <Nav.Link href={`/`}>
+                <Image 
+                    src={`/logo.png`}
+                    roundedCircle
+                    fluid
+                    width="50"
+                    style={{ backgroundColor: "none" }}
+                    height="50"
+                />
+                </Nav.Link>
+                <span className='m-auto'>
+                Fast Society
+              </span>
+              </div>
             </Navbar.Brand>
             {user ? (
               <Nav >
@@ -51,7 +65,7 @@ const Layout = ({ children, title = "fastsociety" }) => {
                 <Nav.Item className="m-auto"></Nav.Item>
                 <Nav.Item>
                   <Nav.Link href={`/profile/${user.id}`}>
-                    <Image
+                    <Image 
                       src={user.image}
                       roundedCircle
                       fluid
