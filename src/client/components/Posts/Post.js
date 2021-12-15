@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Card, Container, Row, Col, Modal, Image, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
+import ReactPlayer from 'react-player';
 
 const Post = ({ data }) => {
     const { id, image, textContent, createdOn, user } = data;
@@ -18,13 +19,15 @@ const Post = ({ data }) => {
                         </Link>
                     </Col>
                 </Row>
-                <Row className="px-2"><p>{textContent}</p></Row>
+                <Row className="px-2"><p style={{whiteSpace: 'pre-wrap'}}>{textContent}</p></Row>
+                {image &&
                 <Row>
                         <Col className="text-center">
-                        {image.endsWith('jpg') || image.endsWith('png') || image.endsWith('jpeg') ? <Image fluid className="p-2" src={image}></Image>
-                        : <ReactPlayer fluid className="p-2" controls width='' height='' url={image}/>}
+                        {(image.endsWith('jpg') || image.endsWith('png') || image.endsWith('jpeg')) && <Image fluid className="p-2" src={window.location.origin + '/' + image}></Image>}
+                        {image.endsWith('mp4') && <ReactPlayer className="p-2" controls width='' height='' url={image}/>}
                         </Col>
                 </Row>
+                }
 
                 {/* <Row>
                     <div className="btn-group">

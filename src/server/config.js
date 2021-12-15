@@ -4,6 +4,7 @@ dotenv.config()
 
 module.exports = {
 	port: process.env.PORT || 8080,
+	filePath: '/images/',
 	sql: {
 		user: process.env.SQL_USER,
 		password: process.env.SQL_PASSWORD,

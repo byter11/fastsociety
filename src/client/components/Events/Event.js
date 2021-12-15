@@ -43,20 +43,20 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
     <>
       <Card className="m-2 shadow">
         <Container fluid>
-          <Row className="justify-content-between m-1">
+          <div className="d-flex flex-wrap">
             {startTime && (
-              <Col>
+              <span className="m-auto">
                 <FontAwesomeIcon icon={faHourglassStart} className="mx-2" />
                 {new Date(startTime).toLocaleString()}
-              </Col>
+              </span>
             )}
             {endTime && (
-              <Col className="text-end">
+              <span className="m-auto">
                 <FontAwesomeIcon icon={faHourglassEnd} className="mx-2" />
                 {new Date(endTime).toLocaleString()}
-              </Col>
+              </span>
             )}
-          </Row>
+          </div>
           <Row className="justify-content-between">
             <Col style={{ cursor: "pointer" }} xs={8}>
               <Link href={`/society/${society.id}`}>
@@ -86,21 +86,20 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
           <Link href={`/event/${id}`}>
             <span style={{ cursor: "pointer" }}>
               <Row className="px-2">
-                <p>{textContent}</p>
+                <p style={{whiteSpace: 'pre-wrap'}}>{textContent}</p>
               </Row>
+              {image &&
               <Row>
                 <Col className="text-center">
-                {image.endsWith('jpg') || image.endsWith('png') || image.endsWith('jpeg') ? <Image fluid className="p-2" src={image}></Image>
-                    : <ReactPlayer fluid className="p-2" controls width='' height='' url={image}/>}
+                {(image.endsWith('jpg') || image.endsWith('png') || image.endsWith('jpeg')) && <Image fluid className="p-2" src={image}></Image>}
+                {image.endsWith('mp4') && <ReactPlayer className="p-2" controls width='' height='' url={image}/>}
                 </Col>
               </Row>
+              }
             </span>
           </Link>
-          {controls && (
-            <Container>
-              <Row>
-                <div className="btn-group">
-                  {/* <Button href="#rating" onClick={()=>showRatingModal(id, userRating)} variant="light">Rate</Button> */}
+            {controls && (
+                <div className="btn-group d-flex">
                   <Button
                     href="#rating"
                     onClick={() => handleRate(id, userRating)}
@@ -112,12 +111,8 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
                     Comment
                   </Button>
                 </div>
-              </Row>
-              <Row>
-                <CommentsView eventId={id} />
-              </Row>
-            </Container>
-          )}
+            )}
+            <CommentsView eventId={id} />
         </Container>
       </Card>
     </>

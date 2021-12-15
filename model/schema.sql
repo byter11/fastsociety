@@ -296,13 +296,19 @@ INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
 VALUES ('108417720736449487580', 2, 'Head');
 
 INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `startTime`, `endTime`, `image`, `User_id`, `Society_id`)
-VALUES (1, 'app creation', '2021-12-01 00:00:00', '2021-12-15 10:00:00', 'https://cdn.pixabay.com/photo/2017/11/14/13/06/kitty-2948404__340.jpg', '103296335140967313495', 1);
+VALUES (1, 'app creation', '2021-12-01 00:00:00', '2021-12-15 10:00:00', '/images/kitty1.jpg', '103296335140967313495', 1);
 
 INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `startTime`, `endTime`, `image`, `User_id`, `Society_id`)
-VALUES (2, 'app2 creation', '2021-12-10 00:00:00', '2021-12-15 08:00:00', 'https://cdn.pixabay.com/photo/2021/12/01/14/10/cat-eyes-6838073__340.jpg', '103296335140967313495', 2);
+VALUES (2, 'app2 creation', '2021-12-10 00:00:00', '2021-12-15 08:00:00', '/images/kitty2.jpg', '103296335140967313495', 2);
+
+INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `image`, `User_id`, `Society_id`)
+VALUES (3, 'GOT KHARAB', '/images/got.mp4', '108417720736449487580', 2);
 
 INSERT INTO `fastsociety`.`Post` (`textContent`, `image`, `User_id`, `Event_id`)
-VALUES ('look at dis cat', 'https://cdn.pixabay.com/photo/2017/07/24/19/57/tiger-2535888__340.jpg', '103296335140967313495', 1);
+VALUES ('zero2', '/images/zero2.jpeg', '103296335140967313495', 1);
+
+INSERT INTO `fastsociety`.`Post` (`textContent`, `image`, `User_id`, `Event_id`)
+VALUES ('GOT KHARAB KITTY GUD', '/images/kittyvid.mp4', '108417720736449487580', 3);
 
 INSERT INTO `fastsociety`.`Comment` (`id`, `textContent`, `User_id`, `Event_id`)
 VALUES (1, 'cool cat dud', '103296335140967313495', 1);

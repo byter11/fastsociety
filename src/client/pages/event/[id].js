@@ -31,10 +31,10 @@ const EventPage = () => {
         {
             event && <>
             <Event data={event} controls={false}/>
-            <CommentsView eventId={event.id} />
+            {/* <CommentsView eventId={event.id} /> */}
             <hr/>
             <h2 className='text-center text-muted'>Updates</h2>
-            <AddPostBox eventId={event.id}/>
+            <AddPostBox eventId={event.id} societyId={event.society.id}/>
             <PostsView eventId={event.id}/>
             </>
         }

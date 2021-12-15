@@ -42,7 +42,8 @@ router.post('/', verify, (req, res) => {
     const {user, Society_id} = req.body;
     if (!user)
         return res.status(401).send();
-    const {image} = req.files;
+    
+    const {image} = req.files || {};
     if(image){
         const path = 'public/images/' + image.name;
         

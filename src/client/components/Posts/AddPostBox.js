@@ -3,10 +3,11 @@ import { useFetchUser } from '../../hooks/user';
 import {useState, useEffect} from 'react';
 import Link from 'next/link';
 
-const AddEventBox = ({eventId}) => {
+
+const AddPostBox = ({eventId, societyId}) => {
     const {user, token} = useFetchUser();
     const [showModal, setShowModal] = useState(false);
-    const [postData, setPostData] = useState({});
+    const [postData, setPostData] = useState({eventId, societyId});
 
     const handleChange = e => {
         const {name, value, files} = e.target;
@@ -14,7 +15,8 @@ const AddEventBox = ({eventId}) => {
         console.log(postData);
     }
 
-    const postUpdate = () => {
+    const postUpdate = (e) => {
+        e.preventDefault();
         setShowModal(false);
         const formData = new FormData();
         for(var key in postData)
@@ -52,15 +54,16 @@ const AddEventBox = ({eventId}) => {
 
     <Modal show={showModal} onHide={()=>setShowModal(false)}>
         <Modal.Body>
-            {/* <Form onSubmit={postEvent}> */}
+            <Form onSubmit={postUpdate}>
                 <div className="d-flex flex-wrap align-items-center">
                     <Image className="m-2" src={user.image || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='} roundedCircle height={40} width={40} />
                     <b>{user.name}</b>
                 </div>
                 
                 
-                <FloatingLabel className="mb-2" controlId="floatingTextarea2" label="Post text">
+                <FloatingLabel className="mb-2" controlId="floatingTextarea2" label="*Post text">
                     <Form.Control
+                    required
                     name="textContent"
                     onChange={handleChange}
                     as="textarea"
@@ -68,13 +71,14 @@ const AddEventBox = ({eventId}) => {
                     />
                 </FloatingLabel>
                 
-                <input type='file' name="image" onChange={handleChange}/>
-                <Button onClick={postUpdate} style={{width: '100%'}} className="my-1" variant="primary" type="submit">
+                <Form.Control type='file' name="image" onChange={handleChange} accept=".jpg,.png,.jpeg"/>
+                <Button style={{width: '100%'}} className="my-1" variant="primary" type="submit">
                         Post
                 </Button>
+                </Form>
         </Modal.Body>
     </Modal>
     </>
 }
 
-export default AddEventBox;
+export default AddPostBox;
