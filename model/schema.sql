@@ -66,6 +66,8 @@ CREATE TABLE IF NOT EXISTS `fastsociety`.`Role` (
   `createEvent` TINYINT NULL DEFAULT 0,
   `deletePost` TINYINT NULL DEFAULT 0,
   `deleteEvent` TINYINT NULL DEFAULT 0,
+  `manageMembers` TINYINT NULL DEFAULT 0,
+  `manageChat` TINYINT NULL DEFAULT 0,
   `Society_id` INT NOT NULL,
   PRIMARY KEY (`name`, `Society_id`),
   INDEX `fk_Role_Society1_idx` (`Society_id` ASC) VISIBLE,
@@ -257,6 +259,10 @@ VALUES ('103296335140967313495', 'Mohsin Shaikh', 'k191308@nu.edu.pk', 'https://
 INSERT INTO `fastsociety`.`User` (`id`, `name`, `email`, `image`)
 VALUES ('108417720736449487580', 'k19 0274', 'k190274@nu.edu.pk', 'https://lh3.googleusercontent.com/a-/AOh14GjkUH94ACxo9bR9bPEljz1FrfFFA97xqrWL-OQnYQ=s96-c');
 
+INSERT INTO `fastsociety`.`User` (`id`, `name`, `email`, `image`)
+VALUES ('118074802032372663340', 'Mukesh Kumar', 'k190251@nu.edu.pk', 'https://lh3.googleusercontent.com/a-/AOh14Gi3acSXWVeVafz5Lh-J2XAk0CfFctXTTOUbhF5Y=s96-c');
+
+
 INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
 VALUES (1, 'app', 'fastsociety', 'https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554__340.jpg', '103296335140967313495');
 
@@ -280,6 +286,11 @@ VALUES ('103296335140967313495', 1, 'Head');
 
 INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
 VALUES ('103296335140967313495', 2, 'Member');
+
+INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
+VALUES ('118074802032372663340', 1, 'Head');
+
+
 
 INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
 VALUES ('108417720736449487580', 2, 'Head');
