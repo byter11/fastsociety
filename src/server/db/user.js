@@ -35,7 +35,7 @@ const getOne = ({where}, cb) => {
 			if(error)
 				return cb(error)
 			
-			const user = results[0][0].u;
+			const user = (results[0][0] || {}).u;
 			if(!user)
 				return cb("User not found");
 
