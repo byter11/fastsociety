@@ -21,7 +21,8 @@ const Post = ({ data }) => {
                 <Row className="px-2"><p>{textContent}</p></Row>
                 <Row>
                         <Col className="text-center">
-                        <Image fluid rounded className="p-2 grow" src={image}></Image>
+                        {image.endsWith('jpg') || image.endsWith('png') || image.endsWith('jpeg') ? <Image fluid className="p-2" src={image}></Image>
+                        : <ReactPlayer fluid className="p-2" controls width='' height='' url={image}/>}
                         </Col>
                 </Row>
 

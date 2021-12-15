@@ -31,14 +31,14 @@ const Layout = ({ children, title = "fastsociety" }) => {
               href="/"
             >
               <div className='d-flex'>
-                  <Image
-                    src={`/logo.png`}
-                    roundedCircle
-                    fluid
-                    width="40"
-                    style={{ backgroundColor: "none" }}
-                    height="40"
-                  />
+                <Image
+                  src={`/logo.png`}
+                  roundedCircle
+                  fluid
+                  width="40"
+                  style={{ backgroundColor: "none" }}
+                  height="40"
+                />
                 <span className='m-auto'>
                   fastsociety
                 </span>
