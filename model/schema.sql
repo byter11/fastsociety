@@ -66,6 +66,8 @@ CREATE TABLE IF NOT EXISTS `fastsociety`.`Role` (
   `createEvent` TINYINT NULL DEFAULT 0,
   `deletePost` TINYINT NULL DEFAULT 0,
   `deleteEvent` TINYINT NULL DEFAULT 0,
+  `manageMembers` TINYINT NULL DEFAULT 0,
+  `manageChat` TINYINT NULL DEFAULT 0,
   `Society_id` INT NOT NULL,
   PRIMARY KEY (`name`, `Society_id`),
   INDEX `fk_Role_Society1_idx` (`Society_id` ASC) VISIBLE,
@@ -267,14 +269,14 @@ VALUES (1, 'app', 'fastsociety', 'https://cdn.pixabay.com/photo/2014/11/30/14/11
 INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
 VALUES (2, 'app2', 'fastsociety2', 'https://cdn.pixabay.com/photo/2017/11/13/07/14/cats-eyes-2944820__340.jpg', '103296335140967313495');
 
-INSERT INTO `fastsociety`.`Role` (name, createEvent, deleteEvent, createPost, deletePost, Society_id)
-VALUES ('Head', 1, 1, 1, 1, 1);
+INSERT INTO `fastsociety`.`Role` (name, createEvent, deleteEvent, createPost, deletePost, manageMembers, manageChat, Society_id)
+VALUES ('Head', 1, 1, 1, 1, 1, 1, 1);
 
 INSERT INTO `fastsociety`.`Role` (name, Society_id)
 VALUES ('Member', 1);
 
-INSERT INTO `fastsociety`.`Role` (name, createEvent, deleteEvent, createPost, deletePost, Society_id)
-VALUES ('Head', 1, 1, 1, 1, 2);
+INSERT INTO `fastsociety`.`Role` (name, createEvent, deleteEvent, createPost, deletePost, manageMembers, manageChat, Society_id)
+VALUES ('Head', 1, 1, 1, 1, 1, 1, 2);
 
 INSERT INTO `fastsociety`.`Role` (name, Society_id)
 VALUES ('Member', 2);

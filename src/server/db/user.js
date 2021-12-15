@@ -18,35 +18,34 @@ const upsert = (data, cb) => {
 
 const getOne = ({where}, cb) => {
 	const {conditions, values} = buildConditions(where, 'u.');
-	db.query(
-		`SELECT u.name, u.email, u.image
-		FROM User u
-		${conditions ? 'WHERE ' + conditions : ''};
-		SELECT s.id, s.title, s.image, r.name, r.createPost, r.createEvent
-		FROM Registration reg
-		LEFT JOIN User u ON u.id = reg.User_id
-		LEFT JOIN Society s ON s.id = reg.Society_id
-		LEFT JOIN Role r ON r.name = reg.Role_name AND r.Society_id = reg.Society_id
-		${conditions ? 'WHERE ' + conditions : ''}`,
-		[...values, ...values],
+	db.query({
+			sql: `SELECT u.name, u.email, u.image
+			FROM User u
+			${conditions ? 'WHERE ' + conditions : ''};
+			SELECT s.id, s.title, s.image, r.name, r.createPost, r.createEvent, r.manageMembers, r.manageChat
+			FROM Registration reg
+			LEFT JOIN User u ON u.id = reg.User_id
+			LEFT JOIN Society s ON s.id = reg.Society_id
+			LEFT JOIN Role r ON r.name = reg.Role_name AND r.Society_id = reg.Society_id
+			${conditions ? 'WHERE ' + conditions : ''}`,
+			values: [...values, ...values],
+			nestTables: true
+		},
 		(error, results=[], fields) => {
 			if(error)
 				return cb(error)
 			
-			const user = results[0][0];
+			const user = results[0][0].u;
 			if(!user)
 				return cb("User not found");
-			// console.log(results[1]);
-			user.societies = results[1].map(obj => ({
-				id: obj.id, title: obj.title, image: obj.image,
-				role: {
-					id: obj.roleId, 
-					name: obj.name, 
-					createPost: obj.createPost, 
-					createEvent: obj.createEvent
-				}
-			}));
-			// console.log(user);
+
+			const societies = results[1].map(e => {
+				e.s.role = e.r;
+				return e.s;
+			})
+			
+			user.societies = societies;
+			
 			cb(error, user, fields)
 		}
 	);

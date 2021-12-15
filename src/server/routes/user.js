@@ -2,32 +2,16 @@ const router = require('express').Router()
 const {getOne} = require('../db/user');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const {verify} = require('../services/jwt');
 
-router.get('/', (req, res) => {
-	
-	jwt.verify(req.headers.token, config.jwtSecret, (err, decoded) => {
-		if(err)
-			return res.status(401).send(err);
-		
-			
-		getOne({where: {id: [decoded]}},
-		(errors, results) => {
-			if(errors){
-				//console.log(errors)
-				return res.status(500).send(errors);
-			}
-			
-			const user = {
-				id: getUserId(results.email),
-				name: results.name,
-				email: results.email,
-				image: results.image,
-				societies: results.societies
-			}
-			
-			return res.status(200).json(user);
-		});
-	});
+
+router.get('/', verify, (req, res) => {
+	const {user} = req.body;
+	if(!user)
+		return res.sendStatus(401);
+
+	user.id = getUserId(user.email);
+	return res.status(200).send(user);
 });
 
 router.get('/:username', (req, res) => {

@@ -17,7 +17,7 @@ const CommentsView = ({ eventId }) => {
     console.log('fetching')
     fetch(`/api/event/${eventId}/comment?offset=${comments.length}`, {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" , token: token},
     })
       .then((res) => res.json())
       .then((newComments) => {
