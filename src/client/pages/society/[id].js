@@ -1,14 +1,18 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Image, Modal, Card } from 'react-bootstrap';
+import { Container, Row, Col, Button, Image, Modal, Toast } from 'react-bootstrap';
 import EventsView from '../../components/Events/EventsView';
 import AddMemberBox from '../../components/Society/AddMemberBox';
 import Layout from '../../components/Layout';
 import Skeleton from 'react-loading-skeleton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useFetchUser } from '../../hooks/user';
 
 const Society = () => {
+  const {user, token} = useFetchUser();
   const [membersModal, setMembersModal] = useState({ show: false, members: [] });
   const [society, setSociety] = useState({});
+  const [toast, setToast] = useState({show: false, message: ''})
   const router = useRouter();
 
   useEffect(() => {
@@ -20,7 +24,6 @@ const Society = () => {
     })
       .then(res => res.json())
       .then(results => {
-        console.log(results)
         setSociety(results);
       });
 
@@ -36,11 +39,36 @@ const Society = () => {
           results.filter(m => m.roleName == r)
         ]
         );
-        console.log(members);
         setMembersModal({ show: false, members: members })
       });
   }, [router.isReady]);
 
+  const removeMember = (email) => {
+    if(!confirm("Are you sure?")) return;
+    fetch(`/api/society/${society.id}/user`, {
+      method: 'DELETE',
+      headers: {"Content-Type": "application/json", token: token},
+      body: JSON.stringify({
+        email, Society_id: society.id 
+      })
+    })
+    .then(res => {
+      console.log(res);
+      if(res.status == 200)
+        setToast({show: true, message: `Removed user ${email}. Please refresh the page`});
+      else
+        setToast({show: true, message: 'Error removing member'});
+    })    
+  }
+
+  const canManageMembers = (() => {
+    try{
+      return !!user.societies.filter(s => s.id == society.id)[0].role.manageMembers
+    }
+    catch{
+      return false;
+    }
+  })()
 
   return (
     <>
@@ -87,23 +115,27 @@ const Society = () => {
         </Modal.Header>
         <Modal.Body>
           <Container>
-            {/* <Card> */}
+            {canManageMembers &&
             <Row className="justify-content-start">
               <AddMemberBox society={society} />
             </Row>
-            {/* </Card> */}
-            {/* <Card> */}
+            }
+            
             {membersModal.members.map(([role, roleMembers], i) => (
               <details className="p-2" key={i} open>
                 <summary className="heading text-muted">{role.toUpperCase()}</summary>
-                {/* <Row>
-                    <Col className="heading text-muted">{role.toUpperCase()}</Col>
-                  </Row> */}
+            
                 {roleMembers.map((m, j) =>
                   <Row key={j}>
-                    <div className="d-flex m-2">
+                    <div className="d-flex align-items-center m-2">
                       <Image className="mx-2" width={25} height={25} src={m.image} roundedCircle />
                       <b>{m.name}</b>
+                      {canManageMembers && <FontAwesomeIcon
+                        className="mx-2 link"
+                        icon="user-slash"
+                        color="red"
+                        onClick={()=>removeMember(m.email)}
+                        />}
                     </div>
                   </Row>
                 )}
@@ -112,7 +144,12 @@ const Society = () => {
             {/* </Card> */}
           </Container>
         </Modal.Body>
+        <Toast autohide show={toast.show} onClose={()=>setToast({show: false, message: ''})}>
+          <Toast.Body>{toast.message}</Toast.Body>
+      </Toast>
       </Modal>
+
+      
     </>
   );
 }
