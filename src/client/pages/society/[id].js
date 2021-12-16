@@ -1,18 +1,18 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Image, Modal, Toast } from 'react-bootstrap';
+import { Container, Row, Col, Button, Image, Modal } from 'react-bootstrap';
 import EventsView from '../../components/Events/EventsView';
 import AddMemberBox from '../../components/Society/AddMemberBox';
 import Layout from '../../components/Layout';
 import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFetchUser } from '../../hooks/user';
+import { toast } from "react-toastify";
 
 const Society = () => {
   const {user, token} = useFetchUser();
   const [membersModal, setMembersModal] = useState({ show: false, members: [] });
   const [society, setSociety] = useState({});
-  const [toast, setToast] = useState({show: false, message: ''})
   const router = useRouter();
 
   useEffect(() => {
@@ -55,9 +55,9 @@ const Society = () => {
     .then(res => {
       console.log(res);
       if(res.status == 200)
-        setToast({show: true, message: `Removed user ${email}. Please refresh the page`});
+        toast(`Removed user ${email}. Please refresh the page`);
       else
-        setToast({show: true, message: 'Error removing member'});
+        toast(`${email} not removed.`);
     })    
   }
 
@@ -144,9 +144,6 @@ const Society = () => {
             {/* </Card> */}
           </Container>
         </Modal.Body>
-        <Toast autohide show={toast.show} onClose={()=>setToast({show: false, message: ''})}>
-          <Toast.Body>{toast.message}</Toast.Body>
-      </Toast>
       </Modal>
 
       

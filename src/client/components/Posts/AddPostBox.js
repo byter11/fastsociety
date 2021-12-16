@@ -2,6 +2,7 @@ import {Container, Row, Col, Button, Image, Form, FloatingLabel, Modal} from 're
 import { useFetchUser } from '../../hooks/user';
 import {useState, useEffect} from 'react';
 import Link from 'next/link';
+import { toast } from "react-toastify";
 
 
 const AddPostBox = ({eventId, societyId}) => {
@@ -27,7 +28,12 @@ const AddPostBox = ({eventId, societyId}) => {
             headers: {token: token},
             body: formData
         })
-        .then((res) => console.log(res));
+        .then((res) => {
+            if(res.status == 200)
+                toast("Success! update posted");
+            else   
+                toast("Sorry, failed to post the update");
+        });
     }
 
     if (!user || !eventId) return <></>;

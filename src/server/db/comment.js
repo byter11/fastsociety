@@ -39,4 +39,18 @@ const getMultiple = ({where={}, limit=2, offset=0, user=''}, cb) => {
 	);
 }
 
-module.exports = { insert, getMultiple };
+const deleteComment = ({id, user}, cb) => {
+	db.query(
+		`DELETE FROM Comment
+    WHERE id = ? AND User_id = ?`,
+		[id, user],
+		(error, results) => {
+			console.log(error)
+			if(!results || !results.affectedRows)
+				return cb({error: 'Not deleted'});
+			cb(error);
+		}
+	)
+}
+
+module.exports = { insert, getMultiple, deleteComment };

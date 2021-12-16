@@ -4,14 +4,16 @@ import { Modal, Container, Row, Col, Spinner, Button} from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Skeleton from 'react-loading-skeleton';
 import Post from './Post';
+import { useFetchUser } from '../../hooks/user';
 
-const PostsView = ({eventId}) => {
+
+const PostsView = ({event}) => {
     const [posts, setPosts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
-    // const {user, token} = useFetchUser();
+    const {user, token} = useFetchUser();
 
     const fetchPosts = () => {
-        fetch(`/api/event/${eventId}/post?offset=${posts.length || 0}`,{
+        fetch(`/api/event/${event.id}/post?offset=${posts.length || 0}`,{
             method: 'GET',
             headers: {'Content-Type': 'application/json'}
         })
@@ -24,6 +26,15 @@ const PostsView = ({eventId}) => {
             setPosts(posts => [...posts, ...newPosts]);
         });
     }
+    
+    const canDelete = (() => {
+        try {
+            return !!user.societies.filter(s => s.id == event.society.id)[0].role.deletePost
+        }
+        catch {
+            return false;
+        }
+    })()
 
     useEffect(() => {
         const scrollBarExists = document.body.scrollHeight > document.body.clientHeight;
@@ -51,8 +62,9 @@ const PostsView = ({eventId}) => {
         >
         {posts.map((post, index) => (
             <Post 
-                data={post} 
+                post={post} 
                 key={index} 
+                canDelete={canDelete}
             />
         ))}
         {hasMore && <div  className="text-center"><Button variant="light" onClick={fetchPosts}>Load More</Button></div>}

@@ -2,6 +2,8 @@ import { Container, Row, Col, Button, Image, Form, FloatingLabel, Modal } from '
 import { useFetchUser } from '../../hooks/user';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { toast } from "react-toastify";
+
 
 const AddEventBox = () => {
     const { user, token } = useFetchUser();
@@ -47,7 +49,12 @@ const AddEventBox = () => {
             headers: { token: token },
             body: formData
         })
-            .then((res) => console.log(res));
+            .then((res) => {
+                if(res.status == 200)
+                    toast("Event submitted!");
+                else
+                    toast("Failed to post event.");
+            });
     }
 
     if (!society) return <></>;

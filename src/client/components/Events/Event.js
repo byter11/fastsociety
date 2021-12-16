@@ -6,7 +6,7 @@ import {
   Container,
   Row,
   Col,
-  Modal,
+  Dropdown,
   Image,
   Button,
 } from "react-bootstrap";
@@ -17,8 +17,11 @@ import {
   faHourglassEnd,
 } from "@fortawesome/free-solid-svg-icons";
 import CommentsView from "./CommentsView";
+import { useFetchUser } from "../../hooks/user";
+import { toast } from "react-toastify";
 
 const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
+  const {user, token} = useFetchUser();
   const {
     id,
     textContent,
@@ -30,14 +33,37 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
     userRating,
     User_id,
     society,
+    deleteButton
   } = data;
 
   const handleComment = () => {};
 
   const handleRate = (id, userRating) => {
-    console.log(id, userRating);
     showRatingModal(id, userRating);
   };
+
+  const handleDelete = () => {
+    fetch('/api/event',{
+      method: 'DELETE',
+      headers: {"Content-Type": "application/json", token: token},
+      body: JSON.stringify({eventId: id, societyId: society.id})
+    })
+    .then(res => {
+      if(res.status == 200)
+        toast("Success! event deleted.")
+      else
+        toast("Sorry, failed to delete the event.")
+    })
+  }
+  
+  const canDelete = (() => {
+    try{
+      return !!user.societies.filter(s => s.id == society.id)[0].role.deleteEvent
+    }
+    catch{
+      return false;
+    }
+  })()
 
   return (
     <>
@@ -76,6 +102,19 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
               </Link>
             </Col>
             <Col className="text-end align-self-center mx-2">
+              <Dropdown>
+                <Dropdown.Toggle variant=""/>
+                <Dropdown.Menu>
+                  <Dropdown.Item 
+                    onClick={() => {
+                      navigator.clipboard.writeText(window.location.origin + `/event/${id}`);
+                      toast("Copied link to clipboard");
+                    }}>
+                    Copy link
+                  </Dropdown.Item>
+                  {canDelete && <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>}
+                </Dropdown.Menu>
+              </Dropdown>
               <FontAwesomeIcon
                 icon={faStar}
                 style={{ color: userRating ? "yellow" : "grey" }}

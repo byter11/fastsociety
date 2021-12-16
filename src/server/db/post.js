@@ -22,7 +22,7 @@ const insert = ({ userId, eventId, textContent, image }, cb) => {
 const getMultiple = ({ where = {}, limit = 10, offset = 0 }, cb) => {
 	const { conditions, values } = buildConditions(where);
 	db.query({
-		sql: `SELECT p.id, p.textContent, p.image,
+		sql: `SELECT p.id, p.textContent, p.image, p.Event_id,
 		u.id, u.name, u.image
 		FROM Post p
 		LEFT JOIN User u ON u.id = p.User_id
@@ -43,4 +43,25 @@ const getMultiple = ({ where = {}, limit = 10, offset = 0 }, cb) => {
 	);
 }
 
-module.exports = { getMultiple, insert };
+const deletePost = ({id, user}, cb) => {
+	db.query(
+		`DELETE FROM Post
+		WHERE id = (
+			SELECT p.id FROM
+			(SELECT id, Event_id FROM Post WHERE id = ?) p
+				LEFT JOIN Event e ON (e.id = p.Event_id)
+				LEFT JOIN Society s ON (s.id = e.Society_id)
+				LEFT JOIN Registration r ON (r.Society_id = s.id AND r.User_id = ?)
+				LEFT JOIN Role role ON (role.name = r.Role_name AND role.Society_id = r.Society_id)
+				WHERE role.deletePost = 1
+		)`,
+		[id, user],
+		(error, results) => {
+			console.log(error)
+			if(!results || !results.affectedRows)
+				return cb({error: 'Not deleted'});
+			cb(error);
+		}
+	)
+}
+module.exports = { getMultiple, insert, deletePost };

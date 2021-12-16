@@ -76,9 +76,12 @@ const removeMember = ({email, Society_id}, cb) => {
 	db.query(
 		`DELETE FROM Registration
 		WHERE User_id = (Select id FROM User WHERE email = ?)
+		AND User_id != (Select head_id FROM Society WHERE id = Society_id)
 		AND Society_id = ?`,
 		[email, Society_id],
 		(error, results) => {
+			if(!results || !results.affectedRows)
+				return cb({error: 'Not deleted'});
 			cb(error);
 		}
 	)

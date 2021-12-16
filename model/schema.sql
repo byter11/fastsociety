@@ -254,20 +254,20 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 INSERT INTO `fastsociety`.`User` (`id`, `name`, `email`, `image`)
-VALUES ('103296335140967313495', 'Mohsin Shaikh', 'k191308@nu.edu.pk', 'https://lh3.googleusercontent.com/a/AATXAJxhrAZgsRKmqei3QmfYReaEKoTzvVGCqRWLhNO5=s96-c');
+VALUES ('103296335140967313495', 'k191308 Mohsin Shaikh', 'k191308@nu.edu.pk', 'https://lh3.googleusercontent.com/a/AATXAJxhrAZgsRKmqei3QmfYReaEKoTzvVGCqRWLhNO5=s96-c');
 
 INSERT INTO `fastsociety`.`User` (`id`, `name`, `email`, `image`)
 VALUES ('108417720736449487580', 'k19 0274', 'k190274@nu.edu.pk', 'https://lh3.googleusercontent.com/a-/AOh14GjkUH94ACxo9bR9bPEljz1FrfFFA97xqrWL-OQnYQ=s96-c');
 
 INSERT INTO `fastsociety`.`User` (`id`, `name`, `email`, `image`)
-VALUES ('118074802032372663340', 'Mukesh Kumar', 'k190251@nu.edu.pk', 'https://lh3.googleusercontent.com/a-/AOh14Gi3acSXWVeVafz5Lh-J2XAk0CfFctXTTOUbhF5Y=s96-c');
+VALUES ('118074802032372663340', 'k190251 Mukesh Kumar', 'k190251@nu.edu.pk', 'https://lh3.googleusercontent.com/a-/AOh14Gi3acSXWVeVafz5Lh-J2XAk0CfFctXTTOUbhF5Y=s96-c');
 
 
 INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
 VALUES (1, 'app', 'fastsociety', 'https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554__340.jpg', '103296335140967313495');
 
 INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
-VALUES (2, 'app2', 'fastsociety2', 'https://cdn.pixabay.com/photo/2017/11/13/07/14/cats-eyes-2944820__340.jpg', '103296335140967313495');
+VALUES (2, 'app2', 'fastsociety2', 'https://cdn.pixabay.com/photo/2017/11/13/07/14/cats-eyes-2944820__340.jpg', '108417720736449487580');
 
 INSERT INTO `fastsociety`.`Role` (name, createEvent, deleteEvent, createPost, deletePost, manageMembers, manageChat, Society_id)
 VALUES ('Head', 1, 1, 1, 1, 1, 1, 1);
@@ -312,3 +312,6 @@ VALUES ('GOT KHARAB KITTY GUD', '/images/kittyvid.mp4', '108417720736449487580',
 
 INSERT INTO `fastsociety`.`Comment` (`id`, `textContent`, `User_id`, `Event_id`)
 VALUES (1, 'cool cat dud', '103296335140967313495', 1);
+
+INSERT INTO `fastsociety`.`Comment` (`id`, `textContent`, `User_id`, `Event_id`)
+VALUES (2, 'yeah', '108417720736449487580', 1);

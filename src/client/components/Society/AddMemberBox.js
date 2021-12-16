@@ -1,7 +1,7 @@
-import { Container, Row, Col, Button, Image, Form, FloatingLabel, Toast } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useFetchUser } from '../../hooks/user';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { toast } from "react-toastify";
 
 const AddMemberBox = ({ society }) => {
     const { user, token } = useFetchUser();
@@ -11,7 +11,6 @@ const AddMemberBox = ({ society }) => {
         ? society.roles[0]
         : {}
     );
-    const [toast, setToast] = useState({show: false, message: ''})
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -37,9 +36,9 @@ const AddMemberBox = ({ society }) => {
         .then((res) => {
             console.log('res', res);
             if(res.status == 200)
-                setToast({show: true, message: "Member registered! Please refresh the page."});
+                toast("Member registered! Please refresh the page.");
             else
-                setToast({show: true, message: "Error registering member."});
+                toast("Error registering member.");
         })
     }
 
@@ -83,10 +82,6 @@ const AddMemberBox = ({ society }) => {
                 Add member
         </button>
     </Form>
-
-    <Toast autohide show={toast.show} onClose={()=>setToast({show: false, message: ''})}>
-          <Toast.Body>{toast.message}</Toast.Body>
-    </Toast>
     </>
 }
 

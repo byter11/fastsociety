@@ -5,6 +5,7 @@ import LoginButton from './LoginButton';
 import { useFetchUser } from '../hooks/user';
 import Router from 'next/router';
 import { Container, Row, Navbar, Nav, Image, NavDropdown, Button } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
 
 const Layout = ({ children, title = "fastsociety" }) => {
   const { user, loading } = useFetchUser({ required: false });
@@ -79,8 +80,14 @@ const Layout = ({ children, title = "fastsociety" }) => {
             {/* </Navbar.Collapse> */}
             {/* </Container> */}
           </Navbar>
+          
         </header>
-
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar
+          closeOnClick
+    />
         {children}
 
       </div>

@@ -10,7 +10,7 @@ import AddPostBox from '../../components/Posts/AddPostBox';
 const EventPage = () => {
     const router = useRouter();
     const [event, setEvent] = useState(null);
-    const {token} = useFetchUser();
+    const {user, token} = useFetchUser();
 
     useEffect(() => {
         if(!router.isReady) return;
@@ -27,6 +27,15 @@ const EventPage = () => {
         });
     }, [router.isReady]);
 
+    const canPost = (() => {
+        try{
+          return !!user.societies.filter(s => s.id == event.society.id)[0].role.createPost
+        }
+        catch{
+          return false;
+        }
+      })()
+
     return <Layout>
         {
             event && <>
@@ -34,8 +43,8 @@ const EventPage = () => {
             {/* <CommentsView eventId={event.id} /> */}
             <hr/>
             <h2 className='text-center text-muted'>Updates</h2>
-            <AddPostBox eventId={event.id} societyId={event.society.id}/>
-            <PostsView eventId={event.id}/>
+            {canPost && <AddPostBox eventId={event.id} societyId={event.society.id}/>}
+            <PostsView event={event}/>
             </>
         }
         </Layout>

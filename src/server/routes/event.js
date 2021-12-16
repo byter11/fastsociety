@@ -63,8 +63,22 @@ router.post('/', verify, (req, res) => {
     console.log(req.body);
     Event.insert(req.body, (error) => {
         if (error)
-            return res.status(500).send();
+            return res.sendStatus(500);
         return res.sendStatus(200);
     });
 })
+
+router.delete('/', verify, (req,res) => {
+    const {user, eventId} = req.body;
+    if (!user)
+        return res.status(401).send();
+    
+    Event.deleteEvent({id: eventId, user: user.id}, (error) => {
+        if(error)
+            return res.sendStatus(500);
+        return res.sendStatus(200);
+    })
+});
+
+
 module.exports = router;

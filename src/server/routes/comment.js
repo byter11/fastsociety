@@ -38,4 +38,18 @@ router.post('/', verify, (req, res) => {
     });
 })
 
+router.delete('/:id', verify, (req, res) => {
+    const {id} = req.params;
+    const {user} = req.body;
+    if (!user)
+        return res.status(401).send();
+    
+    Comment.deleteComment({id, user: user.id}, (error) => {
+        if(error)
+            return res.status(500).send(error);
+        return res.sendStatus(200);
+    })
+});
+
+
 module.exports = router;

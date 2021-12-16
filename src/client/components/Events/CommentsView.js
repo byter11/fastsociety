@@ -100,7 +100,7 @@ const CommentsView = ({ eventId }) => {
         </div>
         <Row><Col>
         {comments.map((comment, index) => (
-            <Comment data={comment} key={index} />
+            <Comment data={comment} eventId={eventId} key={index} />
         ))}
         {hasMore && (
           <div className="text-center">

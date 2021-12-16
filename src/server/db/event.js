@@ -42,4 +42,26 @@ const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
 	);
 }
 
-module.exports = {getMultiple, insert};
+const deleteEvent = ({id, user}, cb) => {
+	db.query(
+		`DELETE FROM Event
+		WHERE id = (
+			SELECT e.id FROM
+			(SELECT id, Society_id FROM Event WHERE id = ?) e
+				LEFT JOIN Society s ON (s.id = e.Society_id)
+				LEFT JOIN Registration r ON (r.Society_id = s.id AND r.User_id = ?)
+				LEFT JOIN Role role ON (role.name = r.Role_name AND role.Society_id = r.Society_id)
+				WHERE role.deleteEvent = 1
+		)`,
+		[id, user],
+		(error, results) => {
+			if(!results || !results.affectedRows)
+				return cb({error: 'Not deleted'});
+			cb(error)
+		}
+			
+	)
+}
+
+
+module.exports = {getMultiple, insert, deleteEvent};
