@@ -17,7 +17,7 @@ const insert = (values, cb) => {
 const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
 	limit = 10;
     const {conditions, values} = buildConditions(where, 'e.');
-	const fields = 'e.id, e.textContent, e.createdOn, e.startTime, e.endTime, e.image, s.id, s.title, s.image';
+	const fields = 'e.id, e.venue, e.textContent, e.createdOn, e.startTime, e.endTime, e.image, s.id, s.title, s.image';
 	db.query({
 		sql: `SELECT ${fields},
 		avg(r.stars) as rating, (SELECT stars FROM Review WHERE User_id = ? AND Event_id = e.id) AS userRating
