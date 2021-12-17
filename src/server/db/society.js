@@ -19,18 +19,20 @@ const upsert = (data, cb) => {
 
 
 const getOne = ({where, value}, cb) => {
-	const {conditions, values} = buildConditions(where);
+	const {conditions, values} = buildConditions(where, 's.');
 
 	db.query(
-		`SELECT id, title, description, email, totalFollows, image
-		FROM Society
+		`SELECT s.id, s.title, s.description, s.email, s.totalFollows, s.image, u.email headEmail 
+		FROM Society s
+		LEFT JOIN User u ON (s.head_id = u.id)
 		${conditions ? 'WHERE ' + conditions : ''};
 		SELECT name, createEvent, deleteEvent, createPost, deletePost, manageMembers, manageChat
 		FROM Role
-		WHERE Society_id = (SELECT id FROM Society ${conditions ? 'WHERE ' + conditions : ''})
+		WHERE Society_id = (SELECT s.id FROM Society s ${conditions ? 'WHERE ' + conditions : ''})
 		`,
 		[...values, ...values],
 		(error, results=[], fields) => {
+			console.log(error, results);
 			if(error) return cb(error);
 			const society = results[0][0];
 			society.roles = results[1];

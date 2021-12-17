@@ -129,7 +129,7 @@ const Society = () => {
                   <Row key={j}>
                     <div className="d-flex align-items-center m-2">
                       <Image className="mx-2" width={25} height={25} src={m.image} roundedCircle />
-                      <b>{m.name}</b>
+                      <span><b>{m.name}</b> {m.email == society.headEmail && '(owner)'}</span>
                       {canManageMembers && <FontAwesomeIcon
                         className="mx-2 link"
                         icon="user-slash"

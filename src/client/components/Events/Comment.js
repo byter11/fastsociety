@@ -20,7 +20,7 @@ const Comment = ({ data, eventId}) => {
   })
       .then(res => {
           if (res.status == 200){
-              toast("Success! comment deleted.")
+              toast("Comment deleted.")
               setIsDeleted(true)
           }
           else

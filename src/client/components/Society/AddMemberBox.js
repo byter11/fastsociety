@@ -1,4 +1,4 @@
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { useFetchUser } from '../../hooks/user';
 import { useState, useEffect } from 'react';
 import { toast } from "react-toastify";
@@ -76,11 +76,13 @@ const AddMemberBox = ({ society }) => {
             <Form.Check label="Manage Chat" type="checkbox" disabled checked={permissions.manageChat || false}/>
             </div>
         </div>
-        <button 
+        <div class="d-flex">
+        <Button 
             type="submit" 
             className="btn btn-primary flex-fill">
                 Add member
-        </button>
+        </Button>
+        </div>
     </Form>
     </>
 }
