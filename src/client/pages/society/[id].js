@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Image, Modal } from 'react-bootstrap';
 import EventsView from '../../components/Events/EventsView';
 import AddMemberBox from '../../components/Society/AddMemberBox';
+import AddRoleBox from '../../components/Society/AddRolesBox';
 import Layout from '../../components/Layout';
 import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,12 +13,11 @@ import { toast } from "react-toastify";
 const Society = () => {
   const {user, token} = useFetchUser();
   const [membersModal, setMembersModal] = useState({ show: false, members: [] });
+  const [rolesModal, setRolesModal] = useState({ show: false, roles: [] });
   const [society, setSociety] = useState({});
   const router = useRouter();
 
-  useEffect(() => {
-    if (!router.isReady) return;
-    const { id } = router.query;
+  const fetchSociety = (id) => {
     fetch(`/api/society/${id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
@@ -26,7 +26,9 @@ const Society = () => {
       .then(results => {
         setSociety(results);
       });
+  }
 
+  const fetchMembers = (id) => {
     fetch(`/api/society/${id}/user`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
@@ -41,6 +43,26 @@ const Society = () => {
         );
         setMembersModal({ show: false, members: members })
       });
+  }
+
+  const fetchRoles = (id) => {
+    fetch(`/api/society/${id}/role`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => res.json())
+      .then(results => {
+        setRolesModal({show:false, roles: roles});
+      });
+  }
+
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const { id } = router.query;
+    fetchSociety(id);
+    fetchMembers(id);
+    // fetchRoles(id);
   }, [router.isReady]);
 
   const removeMember = (email) => {
@@ -70,6 +92,15 @@ const Society = () => {
     }
   })()
 
+  const canManageRoles = (() => {
+    try{
+      return !!user.societies.filter(s => s.id == society.id)[0].role.manageRoles
+    }
+    catch{
+      return false;
+    }
+  })()
+
   return (
     <>
       <Layout>
@@ -87,10 +118,9 @@ const Society = () => {
 
           <h1>{society.title || <Skeleton width={250} />}</h1>
           {society.email && <pre>{society.email}</pre>}
-          <Row className="justify-content-">
-            {/* <Col><Button variant='light'>Edit</Button></Col> */}
-            <Col>
+          <div className="d-flex justify-content-center">
               <Button
+                className="mx-2"
                 variant="light"
                 onClick={() =>
                   setMembersModal({ ...membersModal, show: true })
@@ -98,8 +128,14 @@ const Society = () => {
               >
                 Members
               </Button>
-            </Col>
-          </Row>
+                <Button
+                  className="mx-2"
+                  variant="light"
+                  onClick={() => setRolesModal({...rolesModal, show: true})}
+                  >
+                  Roles
+                </Button>
+            </div>
         </Container>
         <hr />
         <h2 className="text-center text-muted">Events</h2>
@@ -145,7 +181,33 @@ const Society = () => {
           </Container>
         </Modal.Body>
       </Modal>
-
+        
+      <Modal
+        show={rolesModal.show}
+        onHide={() => setRolesModal({ ...rolesModal, show: false })}
+      >
+        <Modal.Header className="p-2" style={{ border: "none" }} closeButton>
+          Roles
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+            {
+            <Row className="justify-content-start">
+              <AddRoleBox society={society} />
+            </Row>
+            }
+            
+            {rolesModal.roles.map((role, i) => (
+              <details className="p-2" key={i} open>
+                <summary className="heading text-muted">{role.toUpperCase()}</summary>
+            
+                
+              </details>
+            ))}
+            {/* </Card> */}
+          </Container>
+        </Modal.Body>
+      </Modal>
       
     </>
   );

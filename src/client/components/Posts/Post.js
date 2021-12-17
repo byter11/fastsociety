@@ -30,7 +30,7 @@ const Post = ({ post, canDelete }) => {
             <Container fluid>
                 <Row className="justify-content-between">
                     <Col style={{ cursor: 'pointer' }}>
-                        <Link href={`/user/${author.id}`}>
+                        <Link href={`/profile/${author.id}`}>
                             <span><Image className="m-2" src={author.image} roundedCircle height={40} width={40} />
                                 <b>{author.name}</b></span>
                         </Link>

@@ -23,7 +23,7 @@ const getMultiple = ({ where = {}, limit = 10, offset = 0 }, cb) => {
 	const { conditions, values } = buildConditions(where);
 	db.query({
 		sql: `SELECT p.id, p.textContent, p.image, p.Event_id,
-		u.id, u.name, u.image
+		u.email, u.name, u.image
 		FROM Post p
 		LEFT JOIN User u ON u.id = p.User_id
 		${conditions ? 'WHERE ' + conditions : ''}
@@ -36,6 +36,7 @@ const getMultiple = ({ where = {}, limit = 10, offset = 0 }, cb) => {
 		const data = results.map(obj => {
 			delete obj.p.User_id;
 			obj.p.user = obj.u;
+			obj.p.user.id = obj.p.user.email.split('@')[0];
 			return Object.assign(obj.p, obj[''] || {});
 		})
 		cb(error, data, fields)

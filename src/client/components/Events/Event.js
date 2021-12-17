@@ -85,27 +85,29 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
               </Row>
             </span>
           </Link>
-          <Row className="justify-content-between m-1"> Start Time : 
+          <Row className="justify-content-between mx-2"> 
             {startTime && (
               <Col>
-                <FontAwesomeIcon  className="mx-2" />
-                {moment(new Date(startTime).toLocaleString()).format('MMMM Do YYYY, h:mm a')}
+                <pre><b> Start Time: </b>
+                {moment(startTime).format('MMMM Do YYYY, h:mm a')}</pre>
               </Col>
             )}
           </Row>
-          <Row className="justify-content-between m-1"> End Time &nbsp;:
+          <Row className="justify-content-between mx-2">
           {endTime && (
               <Col>
-                <FontAwesomeIcon className="mx-2" />
-                {moment(new Date(endTime).toLocaleString()).format('MMMM Do YYYY, h:mm a')}
+                <pre><b> End Time: </b>
+                {moment(endTime).format('MMMM Do YYYY, h:mm a')}</pre>
               </Col>
             )}
           </Row>
-          <Row className="justify-content-between m-1"> Venue : 
+          <Row className="justify-content-between mx-2">  
+          {venue &&
               <Col>
+                <pre><b> Venue: </b>
                 <FontAwesomeIcon className="mx-2" />
-                {venue}
-              </Col>
+                {venue}</pre>
+              </Col>}
           </Row>
           
           {controls && (

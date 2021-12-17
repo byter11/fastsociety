@@ -2,6 +2,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useFetchUser } from '../../hooks/user';
 import { useState, useEffect } from 'react';
 import { toast } from "react-toastify";
+import PermissionView from './PermissionView';
 
 const AddMemberBox = ({ society }) => {
     const { user, token } = useFetchUser();
@@ -62,20 +63,8 @@ const AddMemberBox = ({ society }) => {
             </Form.Select>
         </div>
 
-        <div className="d-flex flex-wrap justify-content-between">
-            <div className="d-flex flex-wrap flex-fill justify-content-between">
-            <Form.Check label="Create Event" type="checkbox" disabled checked={permissions.createEvent || false}/>
-            <Form.Check label="Delete Event" type="checkbox" disabled checked={permissions.deleteEvent || false}/>
-            </div>
-            <div className="d-flex flex-wrap flex-fill justify-content-between">
-            <Form.Check label="Create Post" type="checkbox" disabled checked={permissions.createPost || false}/>
-            <Form.Check label="Delete Post" type="checkbox" disabled checked={permissions.deletePost || false}/>
-            </div>
-            <div className="d-flex flex-wrap flex-fill justify-content-between">
-            <Form.Check label="Manage Members" type="checkbox" disabled checked={permissions.manageMembers || false}/>
-            <Form.Check label="Manage Chat" type="checkbox" disabled checked={permissions.manageChat || false}/>
-            </div>
-        </div>
+        <PermissionView permissions={permissions} disabled/>
+
         <div class="d-flex">
         <Button 
             type="submit" 
