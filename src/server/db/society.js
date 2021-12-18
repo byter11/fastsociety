@@ -32,7 +32,6 @@ const getOne = ({where, value}, cb) => {
 		`,
 		[...values, ...values],
 		(error, results=[], fields) => {
-			console.log(error, results);
 			if(error) return cb(error);
 			const society = results[0][0];
 			society.roles = results[1];
@@ -56,6 +55,56 @@ const getMembers = (societyId, cb) => {
 		}
 	)
 }
+
+const getRoles = (id, cb) => {
+	db.query(
+		`SELECT name, Society_id societyId, createEvent, createPost, deleteEvent, deletePost, manageMembers, manageChat
+		FROM Role WHERE Society_id = ?`,
+		[id],
+		(error, results=[]) => {
+			cb(error, results);
+		}
+	)
+}
+
+const updateRole = ({societyId, role, name, value, userId}, cb) => {
+	db.query(
+		`UPDATE Role SET ?? = ?
+		WHERE Society_id = (SELECT id FROM Society WHERE id = ? AND head_id = ?)
+		AND name = ?`,
+		[name, value, societyId, userId, role],
+		(error, results=[]) => {
+			cb(error, results);
+		}
+	)
+};
+
+const addRole = ({name, createEvent, createPost, deleteEvent, deletePost, manageMembers, manageChat, societyId, userId}, cb) => {
+	const permissions = 
+		[createEvent, createPost, deleteEvent, deletePost, manageMembers, manageChat, societyId].map(v => v || 0);
+	db.query(
+		`INSERT INTO Role (name, createEvent, createPost, deleteEvent, deletePost, manageMembers, manageChat, Society_id)
+		SELECT ?, ?, ?, ?, ?, ?, ?, ? FROM Society WHERE id = ? AND head_id = ?`,
+		[name, ...permissions, societyId, userId],
+		(error, results=[]) => {
+			console.log(error)
+			cb(error, results);
+		}
+	)
+}
+
+const removeRole = ({name, societyId, userId}, cb) => {
+	db.query(
+		`DELETE FROM Role WHERE name = ? AND Society_id = (SELECT id FROM Society WHERE id = ? AND head_id = ?)`,
+		[name, societyId, userId],
+		(error, results) => {
+			if(!results || !results.affectedRows)
+				return cb({error: 'Not deleted'});
+			cb(error);
+		}
+	)
+}
+
 
 const addMember = ({email, Role_name, Society_id}, cb) => {
 	const values = [email, Role_name, Society_id].filter(v => typeof(v) !== 'undefined')
@@ -89,4 +138,4 @@ const removeMember = ({email, Society_id}, cb) => {
 	)
 }
 
-module.exports = {getOne, getMembers, addMember, removeMember, upsert};
+module.exports = {getOne, getMembers, getRoles, addRole, removeRole, updateRole, addMember, removeMember, upsert};

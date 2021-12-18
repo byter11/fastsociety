@@ -78,6 +78,25 @@ CREATE TABLE IF NOT EXISTS `fastsociety`.`Role` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `fastsociety`.`EventRegistration`;
+
+CREATE TABLE IF NOT EXISTS `fastsociety`.`EventRegistration` (
+  `User_id` VARCHAR(50) NOT NULL,
+  `Event_id` INT NOT NULL,
+  PRIMARY KEY (`User_id`, `Event_id`),
+  INDEX `fk_EventRegistration_User1_idx` (`User_id` ASC) VISIBLE,
+  INDEX `fk_EventRegistration_Event1_idx` (`Event_id` ASC) VISIBLE,
+  CONSTRAINT `fk_EventRegistration_User1`
+    FOREIGN KEY (`User_id`)
+    REFERENCES `fastsociety`.`User` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_EventRegistration_Event1`
+    FOREIGN KEY (`Event_id`)
+    REFERENCES `fastsociety`.`Event` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `fastsociety`.`Registration`
@@ -94,10 +113,10 @@ CREATE TABLE IF NOT EXISTS `fastsociety`.`Registration` (
   INDEX `fk_Registration_User1_idx` (`User_id` ASC) VISIBLE,
   INDEX `fk_Registration_Society1_idx` (`Society_id` ASC) VISIBLE,
   CONSTRAINT `fk_Registration_Role1`
-    FOREIGN KEY (`Role_name`)
-    REFERENCES `fastsociety`.`Role` (`name`)
-    ON DELETE SET NULL
-    ON UPDATE NO ACTION,
+    FOREIGN KEY (`Role_name`, `Society_id`)
+    REFERENCES `fastsociety`.`Role` (`name`, `Society_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Registration_User1`
     FOREIGN KEY (`User_id`)
     REFERENCES `fastsociety`.`User` (`id`)

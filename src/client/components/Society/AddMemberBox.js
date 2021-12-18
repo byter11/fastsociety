@@ -63,9 +63,22 @@ const AddMemberBox = ({ society }) => {
             </Form.Select>
         </div>
 
-        <PermissionView permissions={permissions} disabled/>
+        <div className="d-flex flex-wrap justify-content-between">
+        <div className="d-flex flex-wrap flex-fill justify-content-between">
+            <Form.Check label="Create Event" type="checkbox" disabled checked={permissions.createEvent || false}/>
+            <Form.Check label="Delete Event" type="checkbox" disabled checked={permissions.deleteEvent || false}/> 
+        </div>
+        <div className="d-flex flex-wrap flex-fill justify-content-between">
+            <Form.Check label="Create Post" type="checkbox" disabled checked={permissions.createPost || false}/>
+            <Form.Check label="Delete Post" type="checkbox" disabled checked={permissions.deletePost || false}/>
+        </div>
+        <div className="d-flex flex-wrap flex-fill justify-content-between">
+            <Form.Check label="Manage Members" type="checkbox" disabled checked={permissions.manageMembers || false}/>
+            <Form.Check label="Manage Chat" type="checkbox" disabled checked={permissions.manageChat || false}/>
+        </div>
+    </div>
 
-        <div class="d-flex">
+        <div className="d-flex">
         <Button 
             type="submit" 
             className="btn btn-primary flex-fill">

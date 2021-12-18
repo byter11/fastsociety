@@ -25,20 +25,69 @@ router.get('/:id/user', (req, res) => {
 
 })
 
+router.get('/:id/role', (req, res) => {
+	const {id} = req.params;
+	Society.getRoles(id, (error, results) => {
+		if(error)
+			return res.status(500).send(error);
+		return res.status(200).send(results);
+	})
+});
+
+router.put('/:id/role', verify, (req, res) => {
+	const {id} = req.params;
+	const {user, role, name, value} = req.body;
+	
+	if(!user)
+		return res.sendStatus(401);
+	
+	Society.updateRole({societyId: id, userId: user.id, role, name, value}, (error) => {
+		if(error)
+			return res.sendStatus(500);
+		return res.sendStatus(200);
+	})
+})
+
+router.post('/:id/role', verify, (req, res) => {
+	const {id} = req.params;
+	const {user} = req.body;
+
+	if(!user)
+		return res.sendStatus(401);
+	
+	Society.addRole({societyId: id, ...req.body, userId: user.id}, (error) => {
+		if(error)
+			return res.sendStatus(500);
+		return res.sendStatus(200);
+	})
+})
+
+router.delete('/:id/role', verify, (req, res) => {
+	const {id} = req.params;
+	const {user, name} = req.body;
+
+	if(!user)
+		return res.sendStatus(401);
+	
+	Society.removeRole({name, societyId: id, userId: user.id}, (error) => {
+		if(error)
+			return res.sendStatus(500);
+		return res.sendStatus(200);
+	})
+})
+
+
 router.post('/:id/user', verify, (req, res) => {
 	const {id} = req.params;
 	const {user} = req.body;
-	const {User_id, Society_id, Role_name} = req.body;
+	const {User_id, Role_name} = req.body;
 
-	if(!user || !canManageMembers(user, Society_id))
-		return res.sendStatus(401);
-	
-	if(!user || !canManageMembers(user, Society_id))
+	if(!user || !canManageMembers(user, id))
 		return res.sendStatus(401);
 		
 	const email = User_id + '@nu.edu.pk';
 
-	Society.addMember({email, Society_id, Role_name}, (error, results)=>{
+	Society.addMember({email, Society_id: id, Role_name}, (error, results)=>{
 		if(error) return res.status(500).send(error);
 		return res.sendStatus(200);
 	});	

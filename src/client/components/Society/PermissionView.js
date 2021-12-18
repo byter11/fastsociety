@@ -1,39 +1,47 @@
 import {Form} from 'react-bootstrap';
+import { useState } from 'react';
+import { useFetchUser } from '../../hooks/user';
+import {toast} from 'react-toastify';
 
-const PermissionView = ({permissions, disabled, onChange}) => {
+const PermissionView = ({role, disabled, onChange}) => {
+    const {user, token} = useFetchUser();
+    const [permissions, setPermissions] = useState(role);
 
-    const [permissions, setPermissions] = useState(Object.fromEntries(Object.keys(roleData).map(key => [key, 0])));
-
-    console.log(permissions);
-    const updateRole = onChange || ( (e, role) => {
+    const onChangeDefault = (e) => {
         const {name} = e.target;
         const value = +(!permissions[name]);
-        
         value = +value;
-        fetch(`/api/society/${society.id}/role`, {
+        setPermissions(old => ({...old, [name]: value}))
+        onChange(name, value);
+    }
+
+    onChange = onChange || ( (name, value) => {
+        
+        fetch(`/api/society/${role.societyId}/role`, {
             method: "PUT",
             headers: {"Content-Type": "application/json", token: token},
-            body: JSON.stringify({name: role, [name]: value}) 
+            body: JSON.stringify({role: role.name, name: name, value: value}) 
         })
         .then(res => {
-            setPermissions(p => ({...p, [name]: value}));
-            toast(res.status);
+            if(res.status == 200){
+                setPermissions(p => ({...p, [name]: value}));
+            }
         });
     });
 
     return (
     <div className="d-flex flex-wrap justify-content-between">
         <div className="d-flex flex-wrap flex-fill justify-content-between">
-            <Form.Check name="createEvent" onChange={updateRole} label="Create Event" type="checkbox" disabled={disabled} checked={permissions.createEvent || false}/>
-            <Form.Check name="deleteEvent" onChange={updateRole} label="Delete Event" type="checkbox" disabled={disabled} checked={permissions.deleteEvent || false}/>
+            <Form.Check name="createEvent" onChange={onChangeDefault} label="Create Event" type="checkbox" disabled={disabled} checked={permissions.createEvent || false}/>
+            <Form.Check name="deleteEvent" onChange={onChangeDefault} label="Delete Event" type="checkbox" disabled={disabled} checked={permissions.deleteEvent || false}/>
         </div>
         <div className="d-flex flex-wrap flex-fill justify-content-between">
-            <Form.Check name="createPost" onChange={updateRole} label="Create Post" type="checkbox" disabled={disabled} checked={permissions.createPost || false}/>
-            <Form.Check name="deletePost" onChange={updateRole} label="Delete Post" type="checkbox" disabled={disabled} checked={permissions.deletePost || false}/>
+            <Form.Check name="createPost" onChange={onChangeDefault} label="Create Post" type="checkbox" disabled={disabled} checked={permissions.createPost || false}/>
+            <Form.Check name="deletePost" onChange={onChangeDefault} label="Delete Post" type="checkbox" disabled={disabled} checked={permissions.deletePost || false}/>
         </div>
         <div className="d-flex flex-wrap flex-fill justify-content-between">
-            <Form.Check name="manageMembers" onChange={updateRole} label="Manage Members" type="checkbox" disabled={disabled} checked={permissions.manageMembers || false}/>
-            <Form.Check name="manageChat" onChange={updateRole} label="Manage Chat" type="checkbox" disabled={disabled} checked={permissions.manageChat || false}/>
+            <Form.Check name="manageMembers" onChange={onChangeDefault} label="Manage Members" type="checkbox" disabled={disabled} checked={permissions.manageMembers || false}/>
+            <Form.Check name="manageChat" onChange={onChangeDefault} label="Manage Chat" type="checkbox" disabled={disabled} checked={permissions.manageChat || false}/>
         </div>
     </div>
     )

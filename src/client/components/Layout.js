@@ -3,17 +3,19 @@ import Cookie from 'js-cookie';
 import Head from 'next/head'
 import LoginButton from './LoginButton';
 import { useFetchUser } from '../hooks/user';
-import Router from 'next/router';
+import {useRouter} from 'next/router';
 import { Container, Row, Navbar, Nav, Image, NavDropdown, Button } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 
 const Layout = ({ children, title = "fastsociety" }) => {
   const { user, loading } = useFetchUser({ required: false });
+  const router = useRouter();
 
   const handleSignOut = () => {
     delete window.__user;
     Cookie.remove("token");
-    Router.replace("/");
+    console.log('yo')
+    window.location = window.location.origin;
   };
 
   return (

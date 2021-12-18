@@ -13,5 +13,9 @@ module.exports = {
 		connectionLimit: 10
 	},
 	clientId: process.env.CLIENT_ID,
-	jwtSecret: process.env.JWT_SECRET
+	jwtSecret: process.env.JWT_SECRET,
+	gmail: {
+		refreshToken: process.env.REFRESH_TOKEN,
+		accessToken: process.env.ACCESS_TOKEN
+	}
 }

@@ -4,6 +4,7 @@ import { Container, Row, Col, Button, Image, Modal } from 'react-bootstrap';
 import EventsView from '../../components/Events/EventsView';
 import AddMemberBox from '../../components/Society/AddMemberBox';
 import AddRoleBox from '../../components/Society/AddRolesBox';
+import PermissionView from '../../components/Society/PermissionView';
 import Layout from '../../components/Layout';
 import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -52,7 +53,8 @@ const Society = () => {
     })
       .then(res => res.json())
       .then(results => {
-        setRolesModal({show:false, roles: roles});
+        setRolesModal({show:false, roles: results});
+        console.log(results);
       });
   }
 
@@ -62,7 +64,7 @@ const Society = () => {
     const { id } = router.query;
     fetchSociety(id);
     fetchMembers(id);
-    // fetchRoles(id);
+    fetchRoles(id);
   }, [router.isReady]);
 
   const removeMember = (email) => {
@@ -83,6 +85,17 @@ const Society = () => {
     })    
   }
 
+  const removeRole = ({name}) => {
+    if(!confirm("All members belonging to this role will be unregistered.")) return;
+    fetch(`/api/society/${society.id}/role`, {
+      method: 'DElETE',
+      headers: {"Content-Type": "application/json", token: token},
+      body: JSON.stringify({name: name})
+    })
+    .then(res => {
+      toast(res.status)
+    })
+  }
   const canManageMembers = (() => {
     try{
       return !!user.societies.filter(s => s.id == society.id)[0].role.manageMembers
@@ -199,9 +212,14 @@ const Society = () => {
             
             {rolesModal.roles.map((role, i) => (
               <details className="p-2" key={i} open>
-                <summary className="heading text-muted">{role.toUpperCase()}</summary>
-            
-                
+                <summary className="heading text-muted">{role.name.toUpperCase()}
+                {true && <FontAwesomeIcon
+                        className="mx-2 link"
+                        icon="times"
+                        color="red"
+                        onClick={()=>removeRole(role)}/>}
+                </summary>
+                  <PermissionView role={role}/>
               </details>
             ))}
             {/* </Card> */}
