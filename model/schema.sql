@@ -138,7 +138,7 @@ DROP TABLE IF EXISTS `fastsociety`.`Event` ;
 CREATE TABLE IF NOT EXISTS `fastsociety`.`Event` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `venue` VARCHAR(45) NULL,
-  `textContent` VARCHAR(1000) NOT NULL,
+  `textContent` VARCHAR(2000) NOT NULL,
   `createdOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `startTime` DATETIME NULL,
   `endTime` DATETIME NULL,
@@ -283,10 +283,10 @@ VALUES ('118074802032372663340', 'k190251 Mukesh Kumar', 'k190251@nu.edu.pk', 'h
 
 
 INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
-VALUES (1, 'app', 'fastsociety', 'https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554__340.jpg', '103296335140967313495');
+VALUES (1, 'The Grand Debate', 'fastsociety', '/images/tgd.jpg', '103296335140967313495');
 
 INSERT INTO `fastsociety`.`Society` (`id`, `title`, `description`, `image`, `head_id`)
-VALUES (2, 'app2', 'fastsociety2', 'https://cdn.pixabay.com/photo/2017/11/13/07/14/cats-eyes-2944820__340.jpg', '108417720736449487580');
+VALUES (2, "Google Developer's Student Club", 'fastsociety2', '/images/gdsc.jpg', '108417720736449487580');
 
 INSERT INTO `fastsociety`.`Role` (name, createEvent, deleteEvent, createPost, deletePost, manageMembers, manageChat, Society_id)
 VALUES ('Head', 1, 1, 1, 1, 1, 1, 1);
@@ -309,28 +309,30 @@ VALUES ('103296335140967313495', 2, 'Member');
 INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
 VALUES ('118074802032372663340', 1, 'Head');
 
-
-
 INSERT INTO `fastsociety`.`Registration` (User_id, Society_id, Role_name)
 VALUES ('108417720736449487580', 2, 'Head');
 
-INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `startTime`, `endTime`, `image`, `User_id`, `Society_id`)
-VALUES (1, 'app creation', '2021-12-01 00:00:00', '2021-12-15 10:00:00', '/images/kitty1.jpg', '103296335140967313495', 1);
+INSERT INTO `fastsociety`.`Event` (id, venue, textContent, startTime, endTime, image, User_id, Society_id)
+VALUES (1, 'Main Auditorium', 
+    'It is time to bring your game face on and tackle the challenges that lie ahead. Are you prepared to handle brutal rebuttals and fight back with clever remarks? Do you have what it takes to be the next champ? We are delighted to inform you of an upcoming event hosted by The Literary Club popularly known as The Grand Debate on Thursday 9th December 2021.\n\n\n\nThe Grand Debate is a one-day event similar to MUN which offers a national-level simulation of committees like CCI, NASCHR, SSCSP, NASCFA, NASCITT & APC in Pakistan. Each committee has a topic under discussion focused on coming to a resolution. Participants (delegates) are assigned a political party like PTI, PPP, MQM and so on and they are required to serve as representatives of the assigned party during the debate. TGD uses MUN rules & regulations during the debate.\n\n\n\nThe secret of getting ahead is getting started! So if you are among those who do not fear to seize new challenges, come forth! Join us now and register before the clock strikes the hour! Registration deadline is 7th December 2021, 11: 59 PM sharp!\n\n\n\nRegistration Link: https://forms.gle/sDUCwRw1XsKEeQDF8\n\n',
+    '2021-12-09 08:15:00',
+    '2021-12-09 16:00:00',
+    '/images/what_is_tgd.jpg',
+    '103296335140967313495',
+    1);
 
-INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `startTime`, `endTime`, `image`, `User_id`, `Society_id`)
-VALUES (2, 'app2 creation', '2021-12-10 00:00:00', '2021-12-15 08:00:00', '/images/kitty2.jpg', '103296335140967313495', 2);
+INSERT INTO `fastsociety`.`Post` (image, User_id, Event_id)
+VALUES ('/images/registrationprocess.jpeg', '103296335140967313495', 1);
 
-INSERT INTO `fastsociety`.`Event` (`id`, `textContent`, `image`, `User_id`, `Society_id`)
-VALUES (3, 'GOT KHARAB', '/images/got.mp4', '108417720736449487580', 2);
+INSERT INTO `fastsociety`.`Post` (image, User_id, Event_id)
+VALUES ('/images/chief_guest_closing.jpeg', '103296335140967313495', 1);
 
-INSERT INTO `fastsociety`.`Post` (`textContent`, `image`, `User_id`, `Event_id`)
-VALUES ('zero2', '/images/zero2.jpeg', '103296335140967313495', 1);
-
-INSERT INTO `fastsociety`.`Post` (`textContent`, `image`, `User_id`, `Event_id`)
-VALUES ('GOT KHARAB KITTY GUD', '/images/kittyvid.mp4', '108417720736449487580', 3);
-
-INSERT INTO `fastsociety`.`Comment` (`id`, `textContent`, `User_id`, `Event_id`)
-VALUES (1, 'cool cat dud', '103296335140967313495', 1);
-
-INSERT INTO `fastsociety`.`Comment` (`id`, `textContent`, `User_id`, `Event_id`)
-VALUES (2, 'yeah', '108417720736449487580', 1);
+INSERT INTO `fastsociety`.`Event` (id, venue, textContent, startTime, endTime, image, User_id, Society_id)
+VALUES (2, 'Main Auditorium',
+"Dear Students,\n\nGoogle Developer Students Club brings you the next edition of the web development workshop and it's time to learn advanced CSS!\n\nAfter covering the fundamentals: inline and internal CSS, now we move from the roots towards the leaves of the web development tree.\n\nDo you know the most common, professional use of CSS externally? We have got you covered if you don't. In this workshop, get to know about responsive designs and implement them using Flexbox. As always, highly important concepts of web development will be covered in a fun and enjoyable way. Make sure to participate and polish your web development skills.\n\n\nThis event will be open to all students (FASTians only), faculty and staff and registration shall be carried out on a first come first serve basis.\nRegister here: https://tinyurl.com/GDSCWeb04\nIMPORTANT: Use only your official NU email ID for registration\nStream the session live at: http://meet.google.com/nsv-rnis-ebc",
+'2021-12-17 11:00:00',
+'2021-12-17 12:00:00',
+'/images/webbootcamp5.png',
+'108417720736449487580',
+2
+);

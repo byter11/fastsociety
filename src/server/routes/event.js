@@ -1,9 +1,10 @@
 const router = require('express').Router();
-const config = require('../config');
 const Event = require('../db/event');
 const User = require('../db/user');
-const jwt = require('jsonwebtoken');
+const Society = require('../db/society');
+const sendMail = require('../services/emailer');
 const {verify} = require('../services/jwt');
+const { config } = require('../config');
 
 router.get('/:eventId', verify, (req, res) => {
     const userId = (req.body.user || {}).id || '';
@@ -64,7 +65,30 @@ router.post('/', verify, (req, res) => {
     Event.insert(req.body, (error) => {
         if (error)
             return res.sendStatus(500);
-        return res.sendStatus(200);
+        res.sendStatus(200);
+        if(!config.emailsEnabled) return;
+        User.getAllEmails(
+            (error, users) => {
+                if(error) return;
+                Society.getOne({where: {id: req.body.Society_id}}, 
+                    (error, society) => {
+                        if(error) return;
+                        sendMail({
+                            to: users,
+                            subject: `New Event from ${society.title}`,
+                            html: `<h1><b>${society.title}</b></h1>
+                            <pre>${req.body.textContent}</pre>
+                            <img src="cid:postImage">`,
+                            attachments: !image ? [] :
+                                [{
+                                    filename: image.name,
+                                    path: process.cwd() + '/public' + req.body.image,
+                                    cid: 'cid:postImage'
+                                }]
+                        });
+                    });
+            }
+        );
     });
 })
 
@@ -80,5 +104,32 @@ router.delete('/', verify, (req,res) => {
     })
 });
 
+router.post('/:id/follow', verify, (req, res) => {
+    const {user} = req.body;
+    const {id} = req.params;
+
+    if(!user)
+        return res.sendStatus(401);
+    
+    Event.follow({eventId: id, userId: user.id}, (error) => {
+        if(error)
+            return res.sendStatus(500);
+        return res.sendStatus(200);
+    });
+})
+
+router.delete('/:id/follow', verify, (req, res) => {
+    const {user} = req.body;
+    const {id} = req.params;
+
+    if(!user)
+        return res.sendStatus(401);
+    
+    Event.unfollow({eventId: id, userId: user.id}, (error) => {
+        if(error)
+            return res.sendStatus(500);
+        return res.sendStatus(200);
+    });
+})
 
 module.exports = router;

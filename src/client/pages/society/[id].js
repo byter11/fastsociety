@@ -25,6 +25,7 @@ const Society = () => {
     })
       .then(res => res.json())
       .then(results => {
+        console.log(results);
         setSociety(results);
       });
   }
@@ -105,14 +106,7 @@ const Society = () => {
     }
   })()
 
-  const canManageRoles = (() => {
-    try{
-      return !!user.societies.filter(s => s.id == society.id)[0].role.manageRoles
-    }
-    catch{
-      return false;
-    }
-  })()
+  const canManageRoles = society.headEmail == (user||{}).email;
 
   return (
     <>
@@ -197,14 +191,19 @@ const Society = () => {
         
       <Modal
         show={rolesModal.show}
-        onHide={() => setRolesModal({ ...rolesModal, show: false })}
+        onHide={() => {
+          if(canManageRoles)
+            toast("Refresh to see updated permissions");
+          setRolesModal({ ...rolesModal, show: false })
+        }
+      }
       >
         <Modal.Header className="p-2" style={{ border: "none" }} closeButton>
           Roles
         </Modal.Header>
         <Modal.Body>
           <Container>
-            {
+            {canManageRoles && 
             <Row className="justify-content-start">
               <AddRoleBox society={society} />
             </Row>
@@ -213,13 +212,13 @@ const Society = () => {
             {rolesModal.roles.map((role, i) => (
               <details className="p-2" key={i} open>
                 <summary className="heading text-muted">{role.name.toUpperCase()}
-                {true && <FontAwesomeIcon
+                {canManageRoles && <FontAwesomeIcon
                         className="mx-2 link"
                         icon="times"
                         color="red"
                         onClick={()=>removeRole(role)}/>}
                 </summary>
-                  <PermissionView role={role}/>
+                  <PermissionView disabled={!canManageRoles} role={role}/>
               </details>
             ))}
             {/* </Card> */}

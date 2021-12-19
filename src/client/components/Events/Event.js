@@ -17,6 +17,7 @@ import {
   faHourglassEnd,
 } from "@fortawesome/free-solid-svg-icons";
 import CommentsView from "./CommentsView";
+import { useFetchUser } from "../../hooks/user";
 
 const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
   const {
@@ -29,10 +30,12 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
     image,
     rating,
     userRating,
+    isFollowing,
     User_id,
     society,
   } = data;
-
+  const {user, token} = useFetchUser();
+  const [follow, setFollow] = useState(+isFollowing);
   const handleComment = () => {};
 
   const handleRate = (id, userRating) => {
@@ -41,6 +44,28 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
     console.log(data);
   };
 
+  const handleFollow = (e) => {
+    fetch(`/api/event/${id}/follow`, {
+      method: "POST",
+      headers: {token: token}
+    })
+    .then(res => {
+      if(res.status == 200)
+        setFollow(true);
+    })
+  }
+
+  const handleUnfollow = (e) => {
+    fetch(`/api/event/${id}/follow`, {
+      method: "DELETE",
+      headers: {token: token}
+    })
+    .then(res => {
+      if(res.status == 200)
+        setFollow(false)
+    })
+  }
+  
   return (
     <>
       <Card className="m-2 shadow">
@@ -75,8 +100,8 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
           
           <Link href={`/event/${id}`}>
             <span style={{ cursor: "pointer" }}>
-              <Row className="px-2">
-                <p>{textContent}</p>
+              <Row className="px-3">
+                <p style={{ whiteSpace: 'pre-wrap' }}>{textContent}</p>
               </Row>
               <Row>
                 <Col className="text-center">
@@ -114,10 +139,12 @@ const Event = ({ data, showRatingModal = () => {}, controls = true }) => {
             <Container>
               <Row>
                 <div className="btn-group">
-                  {/* <Button href="#rating" onClick={()=>showRatingModal(id, userRating)} variant="light">Rate</Button> */}
+                  <Button className="hover" variant="light" onClick={
+                    follow ? handleUnfollow : handleFollow}>
+                    <FontAwesomeIcon icon="bullhorn" className="mx-1"/>
+                    {follow ? "Unfollow" : "Follow"}
+                  </Button>
                   <Button
-                  
-                    href="#rating"
                     onClick={() => handleRate(id, userRating)}
                     variant="light"
                   >

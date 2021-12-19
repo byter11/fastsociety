@@ -20,7 +20,7 @@ const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
 	const fields = 'e.id, e.venue, e.textContent, e.createdOn, e.startTime, e.endTime, e.image, s.id, s.title, s.image';
 	db.query({
 		sql: `SELECT ${fields},
-		avg(r.stars) as rating, (SELECT stars FROM Review WHERE User_id = ? AND Event_id = e.id) AS userRating
+		avg(r.stars) as rating, (SELECT stars FROM Review WHERE User_id = ? AND Event_id = e.id) AS userRating, (SELECT count(*) FROM EventRegistration WHERE User_id = ? AND Event_id = e.id) AS isFollowing
 		FROM Event e
 		LEFT JOIN Society s ON s.id = e.Society_id
 		LEFT JOIN Review r ON r.Event_id = e.id
@@ -29,8 +29,9 @@ const getMultiple = ({where={}, limit=10, offset=0, user=''}, cb) => {
         ORDER BY createdOn desc
         LIMIT ?, ?`,
 		nestTables: true, 
-		values: [user, ...values, offset, limit],
+		values: [user, user, ...values, offset, limit],
 	},(error, results, fields) => {
+		console.log(error);
 			if (error) cb(error);
 			const data = results.map(obj => {
 				delete obj.e.Society_id;
@@ -63,5 +64,46 @@ const deleteEvent = ({id, user}, cb) => {
 	)
 }
 
+const follow = ({eventId, userId}, cb) => {
+	db.query(
+		`INSERT INTO EventRegistration (User_id, Event_id)
+		VALUES (?, ?)`,
+		[userId, eventId],
+		(error, results) => {
+			console.log(error, results);
+			if(!results || !results.affectedRows)
+				return cb({error: 'Not inserted'});
+			cb(error, results);
+		}
+	)
+}
 
-module.exports = {getMultiple, insert, deleteEvent};
+const unfollow = ({eventId, userId}, cb) => {
+	db.query(
+		`DELETE FROM EventRegistration WHERE Event_id = ? AND User_id = ?`,
+		[eventId, userId],
+		(error, results) => {
+			console.log(error, results);
+			if(!results || !results.affectedRows)
+				return cb({error: 'Not deleted'});
+			cb(error, results);
+		}
+	)
+}
+
+const getFollowers = ({eventId}, cb) => {
+	db.query(
+		`SELECT email FROM User
+		LEFT JOIN EventRegistration ON (User.id = EventRegistration.User_id)
+		WHERE Event_id = ?`,
+		[eventId],
+		(error, results) => {
+			if(error)
+				cb(error)
+			const emails = results.map(u => u.email);
+			cb(null, emails);
+		}
+	)
+}
+
+module.exports = {getMultiple, getFollowers, insert, deleteEvent, follow, unfollow};

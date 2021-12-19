@@ -51,4 +51,16 @@ const getOne = ({where}, cb) => {
 	);
 }
 
-module.exports = {upsert, getOne}
+const getAllEmails = (cb) => {
+	db.query(`
+		SELECT email FROM User`,
+		[],
+		(error, results) => {
+			if(error) return cb(error)
+			const emails = results.map(u => u.email)
+			cb(error, emails);
+		}
+	)
+}
+
+module.exports = {upsert, getOne, getAllEmails}

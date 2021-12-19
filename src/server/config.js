@@ -13,9 +13,12 @@ module.exports = {
 		connectionLimit: 10
 	},
 	clientId: process.env.CLIENT_ID,
+	clientSecret: process.env.CLIENT_SECRET,
 	jwtSecret: process.env.JWT_SECRET,
 	gmail: {
+		email: 'k191308@nu.edu.pk',
 		refreshToken: process.env.REFRESH_TOKEN,
 		accessToken: process.env.ACCESS_TOKEN
-	}
+	},
+	emailsEnabled: false
 }
