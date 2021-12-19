@@ -39,7 +39,7 @@
     "nodemailer": "^6.7.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.3",
-    "react-chat-theme": "^1.0.7",
+    "react-chat-widget": "^3.1.4",
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
     "react-infinite-scroll-component": "^6.1.0",

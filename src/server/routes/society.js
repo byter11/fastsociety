@@ -1,4 +1,4 @@
-const router = require('express').Router()
+const router = require('express').Router({mergeParams: true})
 const Society = require('../db/society');
 const {verify} = require('../services/jwt');
 
@@ -62,6 +62,7 @@ router.post('/:id/role', verify, (req, res) => {
 	})
 })
 
+
 router.delete('/:id/role', verify, (req, res) => {
 	const {id} = req.params;
 	const {user, name} = req.body;
@@ -72,6 +73,57 @@ router.delete('/:id/role', verify, (req, res) => {
 	Society.removeRole({name, societyId: id, userId: user.id}, (error) => {
 		if(error)
 			return res.sendStatus(500);
+		return res.sendStatus(200);
+	})
+})
+
+router.get('/:id/message', verify, (req, res) => {
+	const {id} = req.params;
+	console.log(id)
+	const {user} = req.body;
+	if(!user)
+		return res.sendStatus(401);
+	Society.getMessages({userId: user.id, societyId: id}, (error, results) => {
+		if(error)
+			return res.sendStatus(500);
+		return res.status(200).send(results);
+	})
+});
+
+router.get('/:id/messagelist', verify, (req, res) => {
+	const {id} = req.params;
+	
+	if(!user || !canManageChat(user, id))
+		return res.sendStatus(401);
+	
+	Society.getMessageList(id, (error, results) => {
+		if(error) return res.status(500).send(error);
+		return res.status(200).send(results);
+	})
+
+});
+
+router.post('/:id/message', verify, (req, res) => {
+	const {id} = req.params;
+	const {user, textContent} = req.body;
+	if(!user)
+		return res.sendStatus(401);
+	
+	Society.sendMessage({userId: user.id, societyId: id, textContent, isReply: 0}, (error) => {
+		if(error) return res.status(500).send(error);
+		return res.sendStatus(200);
+	});
+});
+
+router.post('/:id/reply', verify, (req, res) => {
+	const {id} = req.params;
+	const {user, userId, textContent} = req.body;
+	
+	if(!user || !canManageChat(user, id))
+		return res.sendStatus(401);
+	
+	Society.sendMessage({userId: userId, societyId: id, textContent, isReply: 1}, (error) => {
+		if(error) return res.status(500).send(error);
 		return res.sendStatus(200);
 	})
 })
@@ -117,5 +169,7 @@ router.delete('/:id/user', verify, (req, res) => {
 const canManageMembers = (user = [{ role: {} }], id) =>
 	user.societies.filter(s => s.id == id)[0].role.manageMembers;
 
-
+const canManageChat = (user = [{ role: {} }], id) => {
+	user.societies.filter(s => s.id == id)[0].role.manageChat;
+}
 module.exports= router;

@@ -200,6 +200,7 @@ CREATE TABLE IF NOT EXISTS `fastsociety`.`Message` (
   `createdOn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `User_id` VARCHAR(50) NOT NULL,
   `Society_id` INT NOT NULL,
+  `isReply` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_Message_User1_idx` (`User_id` ASC) VISIBLE,
   INDEX `fk_Message_Society1_idx` (`Society_id` ASC) VISIBLE,

@@ -10,6 +10,7 @@ import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFetchUser } from '../../hooks/user';
 import { toast } from "react-toastify";
+import {Chat} from "../../components/Chat";
 
 const Society = () => {
   const {user, token} = useFetchUser();
@@ -25,7 +26,6 @@ const Society = () => {
     })
       .then(res => res.json())
       .then(results => {
-        console.log(results);
         setSociety(results);
       });
   }
@@ -97,6 +97,11 @@ const Society = () => {
       toast(res.status)
     })
   }
+
+  const handleNewUserMessage = () => {
+
+  }
+
   const canManageMembers = (() => {
     try{
       return !!user.societies.filter(s => s.id == society.id)[0].role.manageMembers
@@ -147,6 +152,25 @@ const Society = () => {
         <hr />
         <h2 className="text-center text-muted">Events</h2>
         {society.id && <EventsView societies={[society.id]} />}
+        {/* <Widget
+          handleNewUserMessage={handleNewUserMessage}
+          profileAvatar={society.image}
+          title="Chat"
+          /> */}
+          <div
+    className="bg-light"
+    style={{
+        width: 300,
+        borderRadius: 10,
+        position: "fixed",
+        bottom: 5,
+        right: 5
+    }}
+    >
+      {/* {society.id &&
+        <Chat society={society}/>
+      } */}
+        </div>
       </Layout>
 
       <Modal
