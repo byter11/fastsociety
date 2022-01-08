@@ -12,7 +12,7 @@ export async function fetchUser(token) {
 	  delete window.__user
 	  return null
   }
-
+  
   const res = await fetch(
     '/api/user',
     token
@@ -50,7 +50,7 @@ export function useFetchUser({ required } = {}) {
   })
 
   const token = Cookie.get('token')
-
+  
   useEffect(
     () => {
       if (!loading && user) {

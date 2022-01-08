@@ -27,7 +27,7 @@ const SocietyView = ({societies}) => {
                       width={200}
                       height={200}
                     />
-                    <Card.Title ><p style={{whiteSpace: 'break-spaces'}}><b>{society.title}</b></p></Card.Title>
+                    <Card.Title ><p style={{height: 30, whiteSpace: 'break-spaces'}}><b>{society.title}</b></p></Card.Title>
                   </Col>
                 </Row>
                 <Card.Body>
